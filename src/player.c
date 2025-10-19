@@ -11,6 +11,7 @@ void init_player(Diver* player) {
     player->maxTiredness = 5;
     player->tiredness = 1;
     player->pearls = 10;
+    // player->inventory = inv;
 }
 
 void clean_player(Diver* player) { free(player); }

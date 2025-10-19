@@ -16,7 +16,6 @@ add_executable(OceanDepth src/main.c
         src/save.c
         src/monsters.c
         src/display.c
-        src/include/display.h
         src/utils.c
-        src/include/utils.h
+        src/settings.c
 )

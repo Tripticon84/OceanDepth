@@ -6,6 +6,7 @@
 
 typedef struct {
     int id;
+    char icon[5]; // Emoji représentant le monstre
     char name[100];
     int health;
     int maxHealth;

@@ -10,6 +10,7 @@ typedef struct {
     short tiredness;
     short maxTiredness; // 1 (peu fatigué) à 5 (très fatigué)
     int pearls;
+    // Inventory* inventory;
 } Diver;
 
 void init_player(Diver* player);

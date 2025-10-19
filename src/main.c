@@ -4,24 +4,92 @@
 #include "include/player.h"
 #include "include/display.h"
 
+#include <locale.h>
+#include "include/utils.h"
+
 
 int main(void) {
-    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleOutputCP(CP_UTF8); // Fix les problèmes d'affichage des accents
+    setlocale(LC_ALL, ".UTF8");
 
+
+    // Setup terminal
+    get_terminal_size(&terminalSize);
+    // while (terminalSize.cols <= 80 || terminalSize.rows <= 27) {
+    //     get_terminal_size(&terminalSize);
+    //     clear_terminal();
+    //     printf(
+    //         "Veuillez agrandir la fenêtre du terminal (min 80x27)\n"
+    //         "Taille actuelle : %dx%d\n", terminalSize.cols, terminalSize.rows);
+    //     Sleep(100);
+    // }
+
+    // while (true) {
+    //     get_terminal_size(&TerminalSize);
+    //     printf("%d %d\n", TerminalSize.rows, TerminalSize.cols);
+    //     Sleep(100);
+    //     clear_terminal();
+    // }
+
+    // Inventory* inv = malloc(sizeof(Inventory));
+    // init_inventory(inv);
     Diver* player = malloc(sizeof(Diver));;
     init_player(player);
 
-    printf("Infos du joueur :\n");
-    printf("Santé : %d/%d\n", player->health, player->maxHealth);
-    printf("Oxygène : %d/%d\n", player->oxygen, player->maxOxygen);
-    printf("Fatigue : %d/%d\n", player->tiredness, player->maxTiredness);
-    printf("Perles : %d\n", player->pearls);
 
-    printf("Oxygène : [");
-    display_progress_bar(20, player->maxOxygen, 5);
-    printf("]\n");
+    player->health = 30;
+
+    // printf("Infos du joueur :\n");
+    // printf("Santé : %d/%d\n", player->health, player->maxHealth);
+    // printf("Oxygène : %d/%d\n", player->oxygen, player->maxOxygen);
+    // printf("Fatigue : %d/%d\n", player->tiredness, player->maxTiredness);
+    // printf("Perles : %d\n", player->pearls);
+    //
+    // printf("Oxygène : ");
+    // display_progress_bar(20, player->maxOxygen, 10);
+    // printf(" %d/%d\n", player->oxygen, player->maxOxygen);
+    //
+    // printf("\n\n\n\n\n\n\n\n\n\n\n\n\n");
+
+    Monster monster1, monster2, monster3;
+    monster1.id = 1;
+    strcpy(monster1.icon, "🐙");
+    strcpy(monster1.name, "Poulpe Géant");
+    monster1.health = 80;
+    monster1.maxHealth = 80;
+    monster1.minAttack = 10;
+    monster1.maxAttack = 20;
+    monster1.defense = 5;
+    monster1.speed = 8;
+    strcpy(monster1.specialEffect, "paralysie");
+    monster1.isAlive = 1;
+    monster2.id = 2;
+    strcpy(monster2.icon, "??");
+    strcpy(monster2.name, "Monstre 2");
+    monster2.health = 250;
+    monster2.maxHealth = 320;
+    monster2.minAttack = 30;
+    monster2.maxAttack = 50;
+    monster2.defense = 15;
+    monster2.speed = 4;
+    strcpy(monster2.specialEffect, "paralysie");
+    monster2.isAlive = 1;
+    monster3.id = 3;
+    strcpy(monster3.icon, "??");
+    strcpy(monster3.name, "Monstre 3");
+    monster3.health = 400;
+    monster3.maxHealth = 500;
+    monster3.minAttack = 60;
+    monster3.maxAttack = 90;
+    monster3.defense = 25;
+    monster3.speed = 2;
+    strcpy(monster3.specialEffect, "paralysie");
+    monster3.isAlive = 1;
+
+    display_combat_interface(player, (Monster[]){monster1, monster2, monster3}, 3, 500);
 
     clean_player(player);
+    // clean_inventory(inv);
 
     return 0;
 }

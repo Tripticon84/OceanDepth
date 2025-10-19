@@ -56,6 +56,10 @@ typedef struct {
     Item* equipedBoots;
 } Inventory;
 
+void init_inventory(Inventory* inv);
+
+void clean_inventory(Inventory* inv);
+
 void add_item(Inventory* inv, Item newItem);
 
 Item generate_random_item(int rarity);
