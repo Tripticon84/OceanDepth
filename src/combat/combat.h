@@ -1,9 +1,9 @@
 #ifndef OCEANDEPTH_COMBAT_H
 #define OCEANDEPTH_COMBAT_H
 
-#include "player.h"
-#include "monsters.h"
-#include "inventory.h"
+#include "../player/player.h"
+#include "../monster/monsters.h"
+#include "../inventory/inventory.h"
 
 
 // Attaque du plongeur

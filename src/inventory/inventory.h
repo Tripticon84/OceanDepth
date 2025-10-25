@@ -1,7 +1,7 @@
 #ifndef OCEANDEPTH_INVENTORY_H
 #define OCEANDEPTH_INVENTORY_H
 
-#include "player.h"
+#include "../player/player.h"
 
 
 enum type {

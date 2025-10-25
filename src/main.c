@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
-#include "include/player.h"
-#include "include/display.h"
+#include "player/player.h"
+#include "display/display.h"
 
 #include <locale.h>
-#include "include/utils.h"
+#include "utils/utils.h"
 
 
 int main(void) {
@@ -37,8 +37,8 @@ int main(void) {
     init_player(player);
 
 
-    player->health = 100;
-    player->oxygen = 100;
+    player->health = 30;
+    player->oxygen = 70;
     player->pearls = 465645;
 
     // printf("Infos du joueur :\n");
