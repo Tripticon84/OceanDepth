@@ -1,8 +1,8 @@
 #ifndef OCEANDEPTH_MAP_H
 #define OCEANDEPTH_MAP_H
 
-#include "inventory.h"
-#include "player.h"
+#include "../inventory/inventory.h"
+#include "../player/player.h"
 
 enum ZONE_TYPE {
     SURFACE = 0,

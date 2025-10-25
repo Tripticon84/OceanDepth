@@ -1,9 +1,9 @@
 #ifndef OCEANDEPTH_DISPLAY_H
 #define OCEANDEPTH_DISPLAY_H
 
-#include "map.h"
-#include "monsters.h"
-#include "player.h"
+#include "../map/map.h"
+#include "../monster/monsters.h"
+#include "../player/player.h"
 
 #define BORDER_CHAR "║"
 #define INNER_WIDTH ( - 2)

@@ -1,4 +1,4 @@
-#include "include/inventory.h"
+#include "inventory.h"
 
 #include <stddef.h>
 #include <stdlib.h>

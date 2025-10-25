@@ -1,7 +1,7 @@
-#include "include/display.h"
+#include "display.h"
 #include <stdio.h>
 #include <string.h>
-#include "include/utils.h"
+#include "../utils/utils.h"
 
 void display_progress_bar(int current, int max, int width) {
     int filled = (current * width) / max;
