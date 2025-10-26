@@ -1,4 +1,4 @@
-#include "display.h"
+#include "display_combat.h"
 #include <stdio.h>
 #include <string.h>
 #include "../utils/utils.h"
@@ -11,24 +11,10 @@ void display_progress_bar(int current, int max, int width) {
     printf("]");
 }
 
-int calculate_number_width(int number) {
-    if (number == 0)
-        return 1;
-    int width = 0;
-    if (number < 0) {
-        width = 1; // pour le signe moins
-        number = -number;
-    }
-    while (number > 0) {
-        width++;
-        number /= 10;
-    }
-    return width;
-}
 
 void display_empty_line() {
     printf("║");
-    print_chars(" ", terminalSize.cols - 2);
+    print_chars(" ", INNER_WIDTH);
     printf("║\n");
 }
 
@@ -39,7 +25,7 @@ void display_header(int depth, int pearls) {
     int deepthTextSize = calculate_number_width(depth);
 
     printf("╔");
-    print_chars("═", terminalSize.cols - 2);
+    print_chars("═", INNER_WIDTH);
     printf("╗\n");
 
     printf("║");
@@ -56,18 +42,18 @@ void display_header(int depth, int pearls) {
 
 void display_separator() {
     printf("╠");
-    print_chars("═", terminalSize.cols - 2);
+    print_chars("═", INNER_WIDTH);
     printf("╣\n");
 }
 
 void display_action_menu_title() {
     printf("%s ", BORDER_CHAR);
+
     // TODO: Intelligence pour le choix des messages d'alerte
-    char message[] = "💬 [BULLE] Oxygène faible ! Vous sentez la pression monter...";
+    char* message = "💬 [BULLE] Oxygène faible ! Vous sentez la pression monter...";
     printf("%s", message);
+    print_chars(" ", 79 - calculate_text_width(message));
 
-
-    print_chars(" ", terminalSize.cols - 1 - calculate_text_width(message));
     printf(" %s", BORDER_CHAR);
     printf("\n");
 }
@@ -78,7 +64,7 @@ void display_combat_actions_menu(Diver* diver, int remainingAttacks) {
     // Titre
     char title[] = "🔧 ACTIONS DISPONIBLES :";
     printf(" %s", title);
-    print_chars(" ", terminalSize.cols - 1 - calculate_text_width(title));
+    print_chars(" ", 79 - calculate_text_width(title));
     printf("%s\n", BORDER_CHAR);
 
     printf("%s", BORDER_CHAR);
@@ -87,10 +73,13 @@ void display_combat_actions_menu(Diver* diver, int remainingAttacks) {
     // Option 1
     printf(" [1] ");
     char opt1[] = "Attaquer avec %s (%d attaques restantes)";
-    char weaponName[] = "PLACEHOLDER";
+    char weaponName[] = "PLACEHOLDER WEAPON";
 
-    printf(opt1, weaponName, remainingAttacks);
-    print_chars(" ", terminalSize.cols - 4 - calculate_text_width(opt1) - strlen(weaponName));
+    char buffer[100];
+    snprintf(buffer, sizeof(buffer), opt1, weaponName, remainingAttacks);
+
+    printf("%s", buffer);
+    print_chars(" ", INNER_WIDTH - calculate_text_width(buffer) - 5);
     printf("%s\n", BORDER_CHAR);
     // printf("Attaquer avec %s (%d attaques restantes)\n", diver->inventory.equipedWeapon->name, remainingAttacks);
 
@@ -100,7 +89,7 @@ void display_combat_actions_menu(Diver* diver, int remainingAttacks) {
     char opt2[] = "Compétences Marines";
 
     printf("%s", opt2);
-    print_chars(" ", terminalSize.cols - 6 - calculate_text_width(opt2));
+    print_chars(" ", INNER_WIDTH - 4 - calculate_text_width(opt2));
     printf("%s\n", BORDER_CHAR);
 
     // Option 3
@@ -109,7 +98,7 @@ void display_combat_actions_menu(Diver* diver, int remainingAttacks) {
     char opt3[] = "Consommer objet";
 
     printf("%s", opt3);
-    print_chars(" ", terminalSize.cols - 7 - calculate_text_width(opt3));
+    print_chars(" ", INNER_WIDTH - 5 - calculate_text_width(opt3));
     printf("%s\n", BORDER_CHAR);
 
     // Option 4
@@ -118,7 +107,7 @@ void display_combat_actions_menu(Diver* diver, int remainingAttacks) {
     char opt4[] = "Terminer le tour";
 
     printf("%s", opt4);
-    print_chars(" ", terminalSize.cols - 7 - calculate_text_width(opt4));
+    print_chars(" ", INNER_WIDTH - 5 - calculate_text_width(opt4));
     printf("%s\n", BORDER_CHAR);
 }
 
@@ -132,7 +121,7 @@ void display_combat_main(Diver* player, Monster monsters[], int nbMonsters) {
     printf("%s", diverTitle);
     print_chars(" ", 23);
     printf("%s", monstersTitle);
-    print_chars(" ", terminalSize.cols - 24 - 11 - calculate_text_width(monstersTitle));
+    print_chars(" ", 22);
     printf("%s\n", BORDER_CHAR);
 
 
@@ -310,7 +299,7 @@ void display_combat_main(Diver* player, Monster monsters[], int nbMonsters) {
 
 void display_footer() {
     printf("╚");
-    print_chars("═", terminalSize.cols - 2);
+    print_chars("═", INNER_WIDTH);
     printf("╝\n");
 }
 

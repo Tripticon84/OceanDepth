@@ -6,8 +6,7 @@
 #include "../player/player.h"
 
 #define BORDER_CHAR "║"
-#define INNER_WIDTH ( - 2)
-
+#define INNER_WIDTH 78
 
 // Affichage de l'interface du combat
 void display_combat_interface(Diver* player, Monster creatures[], int creatureCount, int depth, int pearls);

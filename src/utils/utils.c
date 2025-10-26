@@ -83,3 +83,18 @@ void print_chars(char* ch, int count) {
 int calculate_text_width(const char* text) {
     return (int)strlen(text);
 }
+
+int calculate_number_width(int number) {
+    if (number == 0)
+        return 1;
+    int width = 0;
+    if (number < 0) {
+        width = 1; // pour le signe moins
+        number = -number;
+    }
+    while (number > 0) {
+        width++;
+        number /= 10;
+    }
+    return width;
+}
