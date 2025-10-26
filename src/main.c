@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <windows.h>
 #include "player/player.h"
-#include "display/display.h"
+#include "utils/utils.h"
 
 #include <locale.h>
-#include "utils/utils.h"
+
+#include "save/save.h"
 
 
 int main(void) {
@@ -39,7 +40,7 @@ int main(void) {
 
     player->health = 30;
     player->oxygen = 70;
-    player->pearls = 465645;
+    player->pearls = 222332;
 
     // printf("Infos du joueur :\n");
     // printf("Santé : %d/%d\n", player->health, player->maxHealth);
@@ -99,7 +100,15 @@ int main(void) {
     strcpy(monster4.specialEffect, "Aucun");
     monster4.isAlive = 1;
 
-    display_combat_interface(player, (Monster[]){monster1, monster2, monster3, monster4}, 4, 500, player->pearls);
+    // display_combat_interface(player, (Monster[]){monster1, monster2, monster3, monster4}, 4, 500, player->pearls);
+    // display_main_menu();
+
+    // save_game(1, player, NULL, 100, "Zone Test 1", (Monster[]){monster1, monster2, monster3, monster4}, 4);
+    // save_game(2, player, NULL, 200, "Zone Test 22", (Monster[]){monster1, monster2, monster3, monster4}, 4);
+    // save_game(3, player, NULL, 300, "Zone Test 333", (Monster[]){monster1, monster2, monster3, monster4}, 4);
+
+    // get_saves_infos(1);
+    display_saves();
 
     clean_player(player);
     // clean_inventory(inv);

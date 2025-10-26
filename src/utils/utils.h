@@ -23,4 +23,7 @@ void print_chars(char* ch, int count);
 // Calcule la taille d'une chaine de caractères
 int calculate_text_width(const char* text);
 
+// Calcule la taille d'un nombre
+int calculate_number_width(int number);
+
 #endif //OCEANDEPTH_UTILS_H
