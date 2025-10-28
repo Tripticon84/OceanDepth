@@ -1,8 +1,10 @@
 
 #include "save.h"
+#include <windows.h>
 
 #include "../display_combat/display_combat.h"
 #include "../utils/utils.h"
+#include "../game/game.h"
 
 
 int save_game(int slot, Diver* player, Inventory* inv, int depth, const char* zone, Monster monsters[], int monstersCount) {
@@ -40,6 +42,17 @@ int load_game(int slot, Diver* player, Inventory* inv, int* depth, char* zone, M
 
     fclose(file);
     return 0;
+}
+
+int is_slot_used(int slot) {
+    char filePath[50];
+    snprintf(filePath, sizeof(filePath), "save_slot_%d.dat", slot);
+    FILE* file = fopen(filePath, "rb");
+    if (file == NULL) {
+        return 0; // Slot non utilisé
+    }
+    fclose(file);
+    return 1; // Slot utilisé
 }
 
 void get_saves_infos(int slot) {
@@ -92,7 +105,7 @@ void get_saves_infos(int slot) {
     fclose(file);
 }
 
-void display_saves(void) {
+void display_saves_menu(void) {
     printf("╔══════════════════════════════════════════════════════════════════╗\n");
     printf("║                          ⚙️ SAUVEGARDES                          ║\n");
     printf("╠══════════════════════════════════════════════════════════════════╣\n");
@@ -104,8 +117,104 @@ void display_saves(void) {
         print_chars(" ", INNER_WIDTH - 12);
         printf("║\n");
     }
+
+    printf("║ ");
+    printf("[Q] Retour au menu principal");
+    print_chars(" ", INNER_WIDTH - 41);
+    printf("║\n");
+
+    printf("║                                                                  ║\n");
+
     printf("╚");
     print_chars("═", INNER_WIDTH - 12);
     printf("╝\n");
     printf("> ");
+}
+
+void handle_load_save_menu_input(void) {
+    char input = getchar();
+    switch (input) {
+        case '1':
+        case '2':
+        case '3': {
+            int slot = input - '0';
+
+            // Charger la partie depuis le slot choisi
+            Diver player;
+            Inventory inv;
+            int depth;
+            char zone[50];
+            Monster monsters[10]; // Supposons un maximum de 10 monstres
+            int monstersCount;
+
+            if (load_game(slot, &player, &inv, &depth, zone, monsters, &monstersCount) == 0) {
+                // Succès du chargement
+                currentGameState = GAME_STATE_PLAYING;
+            } else {
+                // Échec du chargement
+                printf("Erreur lors du chargement de la sauvegarde %d.\n", slot);
+                sleep_ms(1000);
+            }
+            break;
+        }
+        case 'q':
+        case 'Q':
+            // Retour au menu principal
+            currentGameState = GAME_STATE_MENU;
+            break;
+        default:
+            printf("Entrée invalide. Veuillez réessayer.");
+            // sleep_ms(1000);
+            break;
+    }
+}
+
+void handle_create_save_menu_input(void) {
+    char input = getchar();
+    switch (input) {
+        case '1':
+        case '2':
+        case '3': {
+            int slot = input - '0';
+
+            if (is_slot_used(slot)) {
+                printf("Slot %d déjà utilisé. Écraser ? (y/N) ", slot);
+                int confirm = getchar();
+                while (confirm == '\n') confirm = getchar();
+                if (confirm != 'y' && confirm != 'Y') {
+                    printf("Opération annulée.\n");
+                    sleep_ms(1000);
+                    break;
+                }
+            }
+
+            // Sauvegarder la partie dans le slot choisi
+            Diver player;
+            Inventory inv;
+            int depth = 100;                  // Exemple de profondeur
+            const char* zone = "Corail Bleu"; // Exemple de zone
+            Monster monsters[10];             // Supposons un maximum de 10 monstres
+            int monstersCount = 0;            // Exemple de nombre de monstres
+
+            if (save_game(slot, &player, &inv, depth, zone, monsters, monstersCount) == 0) {
+                // Succès de la sauvegarde
+                printf("Sauvegarde %d créée avec succès.\n", slot);
+                sleep_ms(1000);
+            } else {
+                // Échec de la sauvegarde
+                printf("Erreur lors de la création de la sauvegarde %d.\n", slot);
+                sleep_ms(1000);
+            }
+            break;
+        }
+        case 'q':
+        case 'Q':
+            // Retour au menu principal
+            currentGameState = GAME_STATE_MENU;
+            break;
+        default:
+            printf("Entrée invalide. Veuillez réessayer.");
+            // sleep_ms(1000);
+            break;
+    }
 }
