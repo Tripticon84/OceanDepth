@@ -6,6 +6,7 @@
 
 #include <locale.h>
 
+#include "game/game.h"
 #include "save/save.h"
 
 
@@ -41,18 +42,6 @@ int main(void) {
     player->health = 30;
     player->oxygen = 70;
     player->pearls = 222332;
-
-    // printf("Infos du joueur :\n");
-    // printf("Santé : %d/%d\n", player->health, player->maxHealth);
-    // printf("Oxygène : %d/%d\n", player->oxygen, player->maxOxygen);
-    // printf("Fatigue : %d/%d\n", player->tiredness, player->maxTiredness);
-    // printf("Perles : %d\n", player->pearls);
-    //
-    // printf("Oxygène : ");
-    // display_progress_bar(20, player->maxOxygen, 10);
-    // printf(" %d/%d\n", player->oxygen, player->maxOxygen);
-    //
-    // printf("\n\n\n\n\n\n\n\n\n\n\n\n\n");
 
     Monster monster1, monster2, monster3, monster4;
     monster1.id = 1;
@@ -108,7 +97,10 @@ int main(void) {
     // save_game(3, player, NULL, 300, "Zone Test 333", (Monster[]){monster1, monster2, monster3, monster4}, 4);
 
     // get_saves_infos(1);
-    display_saves();
+    // display_saves_menu();
+
+    menu_loop();
+
 
     clean_player(player);
     // clean_inventory(inv);
