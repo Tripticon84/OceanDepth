@@ -2,6 +2,7 @@
 
 #include "../save/save.h"
 #include "../utils/utils.h"
+#include "../game/game.h"
 
 void display_main_menu(void) {
     printf("╔══════════════════════════════════════════════════════════════════╗\n");
@@ -23,10 +24,7 @@ void display_main_menu(void) {
 
 
 int start_new_game(void) {
-    clear_terminal();
     printf("Démarrage d'une nouvelle plongée...\n");
-    display_saves();
-
 
     return 1;
 }
@@ -45,4 +43,42 @@ void display_options(void) {
     printf("> ");
 }
 
-void display_inventory(void) {}
+void handle_menu_input(void) {
+    char input = getchar();
+    switch (input) {
+        case '1':
+            // Nouvelle Plongée
+            currentGameState = GAME_STATE_SAVE_MENU_CREATE;
+            break;
+        case '2':
+            // Charger une Partie
+            currentGameState = GAME_STATE_SAVE_MENU_LOAD;
+            break;
+        case '3':
+            // Cartographie des Océans
+            clear_terminal();
+            printf("Affichage de la cartographie des océans...");
+            break;
+        case '4':
+            // Compétences Marines
+            clear_terminal();
+            // display_skills();
+            break;
+        case '5':
+            // Inventaire
+            clear_terminal();
+            // display_inventory();
+            break;
+        case '6':
+        case 'q':
+        case 'Q':
+            // Quitter le Jeu
+            running = 0;
+            break;
+        default:
+            // clear_input_buffer();
+            printf("Entrée invalide. Veuillez réessayer.");
+            // sleep_ms(1000);
+            break;
+    }
+}

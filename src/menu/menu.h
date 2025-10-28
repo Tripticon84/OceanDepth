@@ -31,4 +31,9 @@ void display_inventory(void);
  */
 void display_options(void);
 
+/**
+ * @brief Gère les entrées utilisateur dans le menu principal.
+ */
+void handle_menu_input(void);
+
 #endif //OCEANDEPTH_DISPLAY_MENU_H
