@@ -12,10 +12,10 @@ extern TerminalSize terminalSize;
 int get_terminal_size(TerminalSize* size);
 
 // Affiche la taille actuelle du terminal
-void print_terminal_size();
+void print_terminal_size(void);
 
 // Efface le contenu du terminal
-void clear_terminal();
+void clear_terminal(void);
 
 // Affiche un certain nombre de caractères spécifiés
 void print_chars(char* ch, int count);
@@ -25,5 +25,10 @@ int calculate_text_width(const char* text);
 
 // Calcule la taille d'un nombre
 int calculate_number_width(int number);
+
+// Vide le buffer
+void clear_input_buffer(void);
+
+void sleep_ms(int milliseconds);
 
 #endif //OCEANDEPTH_UTILS_H
