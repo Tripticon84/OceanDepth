@@ -146,7 +146,7 @@ void display_combat_main(Diver* player, Monster monsters[], int nbMonsters) {
     for (int i = 0; i < nbMonsters && i < 2; i++) {
         printf(" ");
         printf("│ %s ", monsters[i].icon);
-        printf("%.*s", i == 0 ? 14 : 13, monsters[i].name);
+        printf("%.*s", 13, monsters[i].name);
         if (strlen(monsters[i].name) < 13)
             print_chars(" ", 13 - calculate_text_width(monsters[i].name));
         printf(" │");
