@@ -2,7 +2,7 @@
 #define OCEANDEPTH_COMBAT_H
 
 #include "../player/player.h"
-#include "../monster/monsters.h"
+#include "../monster/monster.h"
 #include "../inventory/inventory.h"
 
 

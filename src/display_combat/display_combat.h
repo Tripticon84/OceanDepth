@@ -2,7 +2,7 @@
 #define OCEANDEPTH_DISPLAY_H
 
 #include "../map/map.h"
-#include "../monster/monsters.h"
+#include "../monster/monster.h"
 #include "../player/player.h"
 
 #define BORDER_CHAR "║"
