@@ -20,17 +20,6 @@ int main(void) {
     srand((unsigned int)time(NULL));
 
 
-    // Setup terminal
-    get_terminal_size(&terminalSize);
-    while (terminalSize.cols <= 80 || terminalSize.rows <= 27) {
-        get_terminal_size(&terminalSize);
-        clear_terminal();
-        printf(
-            "Veuillez agrandir la fenêtre du terminal (min 80x27)\n"
-            "Taille actuelle : %dx%d\n", terminalSize.cols, terminalSize.rows);
-        Sleep(100);
-    }
-
     // while (true) {
     //     get_terminal_size(&TerminalSize);
     //     printf("%d %d\n", TerminalSize.rows, TerminalSize.cols);

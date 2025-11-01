@@ -9,7 +9,7 @@
 #endif
 
 
-TerminalSize terminalSize = {.cols = 80, .rows = 24};
+TerminalSize terminalSize = {.cols = MIN_TERMINAL_COLS, .rows = MIN_TERMINAL_ROWS};
 
 int get_terminal_size(TerminalSize* size) {
     if (size == NULL)
@@ -36,6 +36,19 @@ int get_terminal_size(TerminalSize* size) {
     size->cols = w.ws_col;
     return 0;
 #endif
+}
+
+void check_terminal_size() {
+    // Setup terminal
+    get_terminal_size(&terminalSize);
+    while (terminalSize.cols < MIN_TERMINAL_COLS || terminalSize.rows <= MIN_TERMINAL_ROWS) {
+        get_terminal_size(&terminalSize);
+        clear_terminal();
+        printf(
+            "Veuillez agrandir la fenêtre du terminal (min %dx%d)\n"
+            "Taille actuelle : %dx%d\n", MIN_TERMINAL_COLS, MIN_TERMINAL_ROWS, terminalSize.cols, terminalSize.rows);
+        sleep_ms(100);
+    }
 }
 
 void print_terminal_size() {

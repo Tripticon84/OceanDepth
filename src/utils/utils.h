@@ -1,6 +1,9 @@
 #ifndef OCEANDEPTH_UTILS_H
 #define OCEANDEPTH_UTILS_H
 
+#define MIN_TERMINAL_COLS 80
+#define MIN_TERMINAL_ROWS 30
+
 typedef struct {
     int rows;
     int cols;
@@ -10,6 +13,9 @@ extern TerminalSize terminalSize;
 
 // Obtient la taille du terminal et la stocke dans la structure TerminalSize
 int get_terminal_size(TerminalSize* size);
+
+// Vérifie si la taille du terminal est assez grande
+void check_terminal_size(void);
 
 // Affiche la taille actuelle du terminal
 void print_terminal_size(void);

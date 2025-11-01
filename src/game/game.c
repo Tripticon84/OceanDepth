@@ -16,6 +16,7 @@ void menu_loop(void) {
     GameState previewGameState = currentGameState;
 
     while (running) {
+        check_terminal_size();
         if (previewGameState != currentGameState) {
             // Menu principal -> Création de Sauvegarde
             if (previewGameState == GAME_STATE_MENU && currentGameState == GAME_STATE_SAVE_MENU_CREATE) {
