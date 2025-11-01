@@ -13,9 +13,9 @@ void display_progress_bar(int current, int max, int width) {
 
 
 void display_empty_line() {
-    printf("║");
+    printf("%s", BORDER_CHAR);
     print_chars(" ", INNER_WIDTH);
-    printf("║\n");
+    printf("%s\n", BORDER_CHAR);
 }
 
 ////
@@ -28,7 +28,7 @@ void display_header(int depth, int pearls) {
     print_chars("═", INNER_WIDTH);
     printf("╗\n");
 
-    printf("║");
+    printf("%s", BORDER_CHAR);
     printf(" 🌊 Ocean Depth - Profondeur : -%dm", depth);
 
     for (int i = 0; i < 32 - (deepthTextSize + pearlsTextSize); i++) printf(" ");
@@ -36,7 +36,7 @@ void display_header(int depth, int pearls) {
     char pearlsText[] = "💎 Perles :";
 
     printf("%s %d ", pearlsText, pearls);
-    printf("║\n");
+    printf("%s\n", BORDER_CHAR);
 }
 
 
@@ -124,14 +124,17 @@ void display_combat_main(Diver* player, Monster monsters[], int nbMonsters) {
     print_chars(" ", 22);
     printf("%s\n", BORDER_CHAR);
 
-
     // Ligne 2 : Cadres Joueur + créatures ligne 1
     printf("%s", BORDER_CHAR);
-    printf("  ┌───────────────────────┐");
+    printf("  ┌");
+    print_chars("─", 23);
+    printf("┐");
     print_chars(" ", 8);
     for (int i = 0; i < nbMonsters && i < 2; i++) {
         print_chars(" ", 1);
-        printf("┌──────────────────┐");
+        printf("┌");
+        print_chars("─", 18);
+        printf("┐");
     }
 
     if (nbMonsters == 0) print_chars(" ", 43);
@@ -141,7 +144,9 @@ void display_combat_main(Diver* player, Monster monsters[], int nbMonsters) {
 
     // Ligne 3 : Vie du joueur + noms des créatures (ligne 1)
     printf("%s", BORDER_CHAR);
-    printf("  │ Vie 💚                │");
+    printf("  │ Vie 💚");
+    print_chars(" ", 16);
+    printf("│");
     print_chars(" ", 8);
     for (int i = 0; i < nbMonsters && i < 2; i++) {
         printf(" ");
@@ -197,7 +202,9 @@ void display_combat_main(Diver* player, Monster monsters[], int nbMonsters) {
     print_chars(" ", 8);
     for (int i = 0; i < nbMonsters && i < 2; i++) {
         printf(" ");
-        printf("└──────────────────┘");
+        printf("└");
+        print_chars("─", 18);
+        printf("┘");
     }
 
     if (nbMonsters == 0) print_chars(" ", 43);
@@ -213,7 +220,9 @@ void display_combat_main(Diver* player, Monster monsters[], int nbMonsters) {
     if (nbMonsters > 2) {
         for (int i = 2; i < nbMonsters && i < 4; i++) {
             print_chars(" ", 1);
-            printf("┌──────────────────┐");
+            printf("┌");
+            print_chars("─", 18);
+            printf("┐");
         }
 
         if (nbMonsters == 3) print_chars(" ", 22);
@@ -249,7 +258,9 @@ void display_combat_main(Diver* player, Monster monsters[], int nbMonsters) {
 
     // Ligne 9 : Fermeture cadre joueur + PV monstres (ligne 2)
     printf("%s", BORDER_CHAR);
-    printf("  └───────────────────────┘");
+    printf("  └");
+    print_chars("─", 23);
+    printf("┘");
     print_chars(" ", 8);
     if (nbMonsters > 2) {
         for (int i = 2; i < nbMonsters && i < 4; i++) {
@@ -287,7 +298,9 @@ void display_combat_main(Diver* player, Monster monsters[], int nbMonsters) {
     if (nbMonsters > 2) {
         for (int i = 2; i < nbMonsters && i < 4; i++) {
             printf(" ");
-            printf("└──────────────────┘");
+            printf("└");
+            print_chars("─", 18);
+            printf("┘");
         }
         if (nbMonsters == 3) print_chars(" ", 22);
         if (nbMonsters >= 4) print_chars(" ", 1);
