@@ -307,8 +307,8 @@ void display_input() {
     printf("> ");
 }
 
-void display_combat_interface(Diver* player, Monster creatures[], int creatureCount, int depth, int pearls) {
-    display_header(depth, pearls);
+void display_combat_interface(Diver* player, Monster creatures[], int creatureCount, int depth) {
+    display_header(depth, player->pearls);
     display_separator();
 
     // Main

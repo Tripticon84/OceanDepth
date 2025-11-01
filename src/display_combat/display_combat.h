@@ -9,7 +9,7 @@
 #define INNER_WIDTH 78
 
 // Affichage de l'interface du combat
-void display_combat_interface(Diver* player, Monster creatures[], int creatureCount, int depth, int pearls);
+void display_combat_interface(Diver* player, Monster creatures[], int creatureCount, int depth);
 
 // Affichage de la partie principale du combat (joueur + monstres)
 void display_combat_main(Diver* player, Monster monsters[], int nbMonsters);
