@@ -207,8 +207,8 @@ void handle_create_save_menu_input(void) {
             }
             break;
         }
-        case 'q':
-        case 'Q':
+        case 'r':
+        case 'R':
             // Retour au menu principal
             currentGameState = GAME_STATE_MENU;
             break;
