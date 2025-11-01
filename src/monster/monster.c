@@ -17,11 +17,11 @@ const MonsterType MONSTER_TYPES[5] = {
 
 const char* get_random_monster_name(int type) {
     static const char* names[][NUMBER_OF_MONSTER_TYPES] = {
-        [MONSTER_TYPE_KRAKEN] = {"Kraken des Abysses", "Tentacule Geant", "Le Dévoreur des Mers", "Le Monstre des Profondeurs", "L'Etreinte du Kraken"},
+        [MONSTER_TYPE_KRAKEN] = {"Kraken des Abysses", "Tentacule Geant", "Le Devoreur des Mers", "Le Monstre des Profondeurs", "L'Etreinte du Kraken"},
         [MONSTER_TYPE_SHARK] = {"Requin Blanc", "Chasseur des Oceans", "Lame Aquatique", "Furie des Mers", "Seigneur des Vagues"},
         [MONSTER_TYPE_MEDUSA] = {"Meduse Lumineuse", "Danseuse des Profondeurs", "Lueur Mortelle", "Spectre des Mers", "Gardienne des Abysses"},
         [MONSTER_TYPE_SWORD_FISH] = {"Poisson-Epee Rapide", "Lame Aquatique", "Fendant les Vagues", "Chasseur des Profondeurs", "Eclaireur des Mers"},
-        [MONSTER_TYPE_GIANT_CRAB] = {"Crabe Geant", "Pinces de Fer", "Le Colosse des Sables", "Gardien des Récifs", "Le Titan Cotier"}
+        [MONSTER_TYPE_GIANT_CRAB] = {"Crabe Geant", "Pinces de Fer", "Le Colosse des Sables", "Gardien des Recifs", "Le Titan Cotier"}
     };
 
     int index = random(0, 4);
