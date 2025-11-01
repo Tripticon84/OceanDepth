@@ -31,4 +31,6 @@ void clear_input_buffer(void);
 
 void sleep_ms(int milliseconds);
 
+int random(int min, int max);
+
 #endif //OCEANDEPTH_UTILS_H
