@@ -41,7 +41,7 @@ int get_terminal_size(TerminalSize* size) {
 void check_terminal_size() {
     // Setup terminal
     get_terminal_size(&terminalSize);
-    while (terminalSize.cols < MIN_TERMINAL_COLS || terminalSize.rows <= MIN_TERMINAL_ROWS) {
+    while (terminalSize.cols < MIN_TERMINAL_COLS || terminalSize.rows < MIN_TERMINAL_ROWS) {
         get_terminal_size(&terminalSize);
         clear_terminal();
         printf(
