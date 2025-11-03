@@ -56,7 +56,7 @@
 - [ ] Chargement du joueur
 - [ ] Chargement de l'inventaire
 - [ ] Chargement des créatures
-- [ ] Chargement de la zone
+- [ ] Chargement des zones
 
 ### Compétences
 
@@ -71,6 +71,24 @@
 - [ ] Retour en surface
 - [ ] Détail d'une zone
 
+### Zones
+
+#### Types de zones
+
+- [ ] Surface : Sauvegarde, boutique, repos complet
+- [ ] Récifs : Créatures faciles, équipement de base
+- [ ] Épaves : Trésors, créatures moyennes, équipements rares
+- [ ] Forêts d'algues : Labyrinthique, créatures qui se cachent
+- [ ] Grottes : Sécurisées, cristaux d'oxygène, sauvegarde
+- [ ] Fosses : Créatures légendaires, équipements exceptionnels
+
+#### Mécaniques d'exploration
+
+- [ ] Chaque déplacement consomme de l'oxygène selon la distance
+- [ ] Plus la profondeur augmente, plus l'oxygène se consomme vite
+- [ ] Certaines zones nécessitent un équipement minimum
+- [ ] Les zones inconnues se débloquent par progression
+
 ### Étapes
 
 - [ ] Étape 1 : Génération créatures
@@ -79,7 +97,7 @@
 - [ ] Étape 4 : Récompenses
 - [ ] Étape 5 : Sauvegarde/Chargement
 - [ ] Étape 6 : Compétences
-- [ ] Étape 7 : Map
+- [ ] Étape 7 : Map/Zones
 
 ## Captures d'écran
 
