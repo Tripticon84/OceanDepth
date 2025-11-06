@@ -27,7 +27,13 @@ void display_main_menu(void) {
 
 int start_new_game(void) {
     printf("Démarrage d'une nouvelle plongée...\n");
-
+    
+    // TODO: Initialiser le joueur et l'inventaire ici
+    // Diver* player = malloc(sizeof(Diver));
+    // init_player(player);
+    // Inventory* inv = malloc(sizeof(Inventory));
+    // init_starting_inventory(inv);
+    
     return 1;
 }
 

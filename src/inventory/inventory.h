@@ -31,7 +31,7 @@ enum rarity {
 
 typedef struct {
     char name[100];
-    unsigned short type; // "harpon", "combinaison", "consommable"
+    enum type type; // Type de l'objet (CONSUMABLE, WEAPON_CONTACT, etc.)
 } TypeItem;
 
 typedef struct {
@@ -57,6 +57,12 @@ typedef struct {
 } Inventory;
 
 void init_inventory(Inventory* inv);
+
+/**
+ * @brief Initialise l'inventaire avec les items de départ (Trident Rouillé et Armure basique)
+ * @param inv Pointeur vers l'inventaire à initialiser
+ */
+void init_starting_inventory(Inventory* inv);
 
 void clean_inventory(Inventory* inv);
 

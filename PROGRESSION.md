@@ -37,8 +37,8 @@
 
 ### Système de récompenses
 
-- [ ] Affichage
-- [ ] Ajout des récompenses à l'inventaire/joueur
+- [X] Affichage
+- [X] Ajout des récompenses à l'inventaire/joueur
 
 ### Sauvegarde/Chargement
 
@@ -94,7 +94,7 @@
 - [ ] Étape 1 : Génération créatures
 - [ ] Étape 2 : Attaque joueur
 - [ ] Étape 3 : Attaque créatures
-- [ ] Étape 4 : Récompenses
+- [X] Étape 4 : Récompenses
 - [ ] Étape 5 : Sauvegarde/Chargement
 - [ ] Étape 6 : Compétences
 - [ ] Étape 7 : Map/Zones
