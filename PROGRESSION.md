@@ -4,7 +4,7 @@
 
 ### Menu principal
 
-- [ ] Affichage du menu principal
+- [X] Affichage du menu principal
 - [ ] Gérer les inputs
 
 ### Monstres
@@ -21,7 +21,7 @@
 
 ### Inventaire
 
-- [ ] Affichage de l'inventaire
+- [X] Affichage de l'inventaire
 - [ ] Gestion inputs
 - [ ] Gestion équipements et consommables
 

@@ -2,6 +2,7 @@
 #define OCEANDEPTH_DISPLAY_MENU_H
 
 #include <stdio.h>
+#include "../inventory/inventory.h"
 
 
 /**
@@ -23,8 +24,9 @@ void display_skills(void);
 
 /**
  * @brief Ouvre l'inventaire sous-marin avec gestion des objets.
+ * @param inv Pointeur vers l'inventaire à afficher
  */
-void display_inventory(void);
+void display_inventory(Inventory* inv);
 
 /**
  * @brief Menu des options (langue, effets, sauvegarde auto, etc.).

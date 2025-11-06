@@ -3,6 +3,8 @@
 #include "../save/save.h"
 #include "../utils/utils.h"
 #include "../game/game.h"
+#include "../inventory/inventory.h"
+#include <string.h>
 
 void display_main_menu(void) {
     printf("╔══════════════════════════════════════════════════════════════════╗\n");
@@ -43,6 +45,71 @@ void display_options(void) {
     printf("> ");
 }
 
+void display_inventory(Inventory* inv) {
+    printf("╔══════════════════════════════════════════════════════════════════╗\n");
+    printf("║                        🧰 INVENTAIRE 🤿                           ║\n");
+    printf("╠══════════════════════════════════════════════════════════════════╣\n");
+    printf("║                                                                  ║\n");
+    
+    // Affichage des équipements portés
+    printf("║  🛡️  ÉQUIPEMENT PORTÉ :                                          ║\n");
+    printf("║                                                                  ║\n");
+    
+    if (inv && inv->equipedWeapon) {
+        printf("║  ⚔️  Arme : %-50s ║\n", inv->equipedWeapon->name);
+    } else {
+        printf("║  ⚔️  Arme : Aucune                                            ║\n");
+    }
+    
+    if (inv && inv->equipedHelmet) {
+        printf("║  🪖 Casque : %-48s ║\n", inv->equipedHelmet->name);
+    } else {
+        printf("║  🪖 Casque : Aucun                                            ║\n");
+    }
+    
+    if (inv && inv->equipedSuit) {
+        printf("║  🦺 Combinaison : %-44s ║\n", inv->equipedSuit->name);
+    } else {
+        printf("║  🦺 Combinaison : Aucune                                       ║\n");
+    }
+    
+    if (inv && inv->equipedGloves) {
+        printf("║  🧤 Gants : %-50s ║\n", inv->equipedGloves->name);
+    } else {
+        printf("║  🧤 Gants : Aucuns                                            ║\n");
+    }
+    
+    if (inv && inv->equipedBoots) {
+        printf("║  👢 Bottes : %-49s ║\n", inv->equipedBoots->name);
+    } else {
+        printf("║  👢 Bottes : Aucunes                                          ║\n");
+    }
+    
+    printf("║                                                                  ║\n");
+    printf("╠══════════════════════════════════════════════════════════════════╣\n");
+    printf("║                                                                  ║\n");
+    printf("║  📦 OBJETS EN POSSESSION :                                       ║\n");
+    printf("║                                                                  ║\n");
+    
+    if (inv && inv->nb_objets > 0) {
+        for (int i = 0; i < inv->nb_objets && i < 8; i++) {
+            char itemLine[70];
+            snprintf(itemLine, sizeof(itemLine), "  [%d] %s (x%d)", 
+                     i + 1, inv->objets[i].name, inv->objets[i].quantity);
+            printf("║ %-64s ║\n", itemLine);
+        }
+    } else {
+        printf("║  Inventaire vide...                                            ║\n");
+    }
+    
+    printf("║                                                                  ║\n");
+    printf("╠══════════════════════════════════════════════════════════════════╣\n");
+    printf("║  💡 Utilisez les numéros pour équiper ou consommer des objets    ║\n");
+    printf("║  🔙 Appuyez sur [0] pour retourner au menu principal             ║\n");
+    printf("╚══════════════════════════════════════════════════════════════════╝\n");
+    printf("> ");
+}
+
 void handle_menu_input(void) {
     char input = getchar();
     switch (input) {
@@ -67,7 +134,7 @@ void handle_menu_input(void) {
         case '5':
             // Inventaire
             clear_terminal();
-            // display_inventory();
+            // display_inventory(NULL); // TODO: Passer l'inventaire du joueur
             break;
         case '6':
         case 'q':
