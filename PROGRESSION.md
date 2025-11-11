@@ -9,14 +9,14 @@
 
 ### Monstres
 
-- [ ] Génération d'une créature
+- [X] Génération d'une créature
 - [ ] Effets spéciaux des créatures
+  - Manque Méduse
 - [ ] Génération aléatoire de créatures pour une zone
-- [ ] Effets spéciaux des créatures (paralysie, poison, etc.)
 
 ### Joueur
 
-- [ ] Initialisation du joueur
+- [X] Initialisation du joueur
 - [ ] Gestion des ressources (vie, oxygne, fatigue)
 
 ### Inventaire
@@ -28,12 +28,12 @@
 ### Combats
 
 - [X] Affichage combat
-- [ ] Gestion des tours (ordre des actions)
-- [ ] Gestion des actions joueur
-- [ ] Gestion de la fatigue
-- [ ] Gestion de l'oxygène
-- [ ] Calcule des dégâts
-- [ ] Conséquences des attaques
+- [X] Gestion des tours (ordre des actions)
+- [X] Gestion des actions joueur
+- [X] Gestion de la fatigue
+- [X] Gestion de l'oxygène
+- [X] Calcule des dégâts
+- [X] Conséquences des attaques
 
 ### Système de récompenses
 
@@ -91,9 +91,9 @@
 
 ### Étapes
 
-- [ ] Étape 1 : Génération créatures
-- [ ] Étape 2 : Attaque joueur
-- [ ] Étape 3 : Attaque créatures
+- [X] Étape 1 : Génération créatures
+- [X] Étape 2 : Attaque joueur
+- [X] Étape 3 : Attaque créatures
 - [X] Étape 4 : Récompenses
 - [ ] Étape 5 : Sauvegarde/Chargement
 - [ ] Étape 6 : Compétences
