@@ -1,6 +1,8 @@
 #include "display_combat.h"
 #include <stdio.h>
 #include <string.h>
+
+#include "../game/game.h"
 #include "../utils/utils.h"
 
 void display_progress_bar(int current, int max, int width) {
@@ -20,7 +22,7 @@ void display_empty_line() {
 
 ////
 
-void display_header(int depth, int pearls) {
+void display_header(int pearls) {
     int pearlsTextSize = calculate_number_width(pearls);
     int deepthTextSize = calculate_number_width(depth);
 
@@ -58,7 +60,7 @@ void display_action_menu_title() {
     printf("\n");
 }
 
-void display_combat_actions_menu(Diver* diver, int remainingAttacks) {
+void display_combat_actions_menu(int remainingAttacks) {
     printf("%s", BORDER_CHAR);
 
     // Titre
@@ -67,19 +69,17 @@ void display_combat_actions_menu(Diver* diver, int remainingAttacks) {
     print_chars(" ", 79 - calculate_text_width(title));
     printf("%s\n", BORDER_CHAR);
 
-    printf("%s", BORDER_CHAR);
-
 
     // Option 1
+    printf("%s", BORDER_CHAR);
     printf(" [1] ");
     char opt1[] = "Attaquer avec %s (%d attaques restantes)";
-    char weaponName[] = "PLACEHOLDER WEAPON";
 
     char buffer[100];
-    snprintf(buffer, sizeof(buffer), opt1, weaponName, remainingAttacks);
+    snprintf(buffer, sizeof(buffer), opt1, player->inventory.equipedWeapon->name, remainingAttacks);
 
     printf("%s", buffer);
-    print_chars(" ", INNER_WIDTH - calculate_text_width(buffer) - 5);
+    print_chars(" ", INNER_WIDTH - calculate_text_width(buffer) - 4);
     printf("%s\n", BORDER_CHAR);
     // printf("Attaquer avec %s (%d attaques restantes)\n", diver->inventory.equipedWeapon->name, remainingAttacks);
 
@@ -104,14 +104,23 @@ void display_combat_actions_menu(Diver* diver, int remainingAttacks) {
     // Option 4
     printf("%s", BORDER_CHAR);
     printf(" [4] ");
-    char opt4[] = "Terminer le tour";
+    char opt4[] = "Afficher les infos des créatures";
 
     printf("%s", opt4);
-    print_chars(" ", INNER_WIDTH - 5 - calculate_text_width(opt4));
+    print_chars(" ", INNER_WIDTH - 4 - calculate_text_width(opt4));
+    printf("%s\n", BORDER_CHAR);
+
+    // Option 5
+    printf("%s", BORDER_CHAR);
+    printf(" [5] ");
+    char opt5[] = "Terminer le tour";
+
+    printf("%s", opt5);
+    print_chars(" ", INNER_WIDTH - 5 - calculate_text_width(opt5));
     printf("%s\n", BORDER_CHAR);
 }
 
-void display_combat_main(Diver* player, Monster monsters[], int nbMonsters) {
+void display_combat_main(int nbMonsters) {
     // Ligne 1 : Titres
     printf("%s  ", BORDER_CHAR);
 
@@ -150,10 +159,10 @@ void display_combat_main(Diver* player, Monster monsters[], int nbMonsters) {
     print_chars(" ", 8);
     for (int i = 0; i < nbMonsters && i < 2; i++) {
         printf(" ");
-        printf("│ %s ", monsters[i].icon);
-        printf("%.*s", 13, monsters[i].name);
-        if (strlen(monsters[i].name) < 13)
-            print_chars(" ", 13 - calculate_text_width(monsters[i].name));
+        printf("│ %s ", monsters[i]->icon);
+        printf("%.*s", 13, monsters[i]->name);
+        if (strlen(monsters[i]->name) < 13)
+            print_chars(" ", 13 - calculate_text_width(monsters[i]->name));
         printf(" │");
     }
 
@@ -171,7 +180,7 @@ void display_combat_main(Diver* player, Monster monsters[], int nbMonsters) {
     print_chars(" ", 8);
     for (int i = 0; i < nbMonsters && i < 2; i++) {
         printf(" ");
-        printf("│ PV:%4d/%-4d     │", monsters[i].health, monsters[i].maxHealth);
+        printf("│ PV:%4d/%-4d     │", monsters[i]->health, monsters[i]->maxHealth);
     }
     if (nbMonsters == 0) print_chars(" ", 43);
     if (nbMonsters == 1) print_chars(" ", 22);
@@ -184,9 +193,9 @@ void display_combat_main(Diver* player, Monster monsters[], int nbMonsters) {
     print_chars(" ", 8);
     for (int i = 0; i < nbMonsters && i < 2; i++) {
         printf(" ");
-        printf("│ Effet: %.9s", strcmp(monsters[i].specialEffect, "aucun") == 0 ? "Aucun" : monsters[i].specialEffect);
-        if (strlen(monsters[i].specialEffect) < 9)
-            print_chars(" ", 9 - calculate_text_width(monsters[i].specialEffect));
+        printf("│ Effet: %.9s", get_monster_effects_name(monsters[i]->specialEffect));
+        if (strlen(get_monster_effects_name(monsters[i]->specialEffect)) < 9)
+            print_chars(" ", 9 - calculate_text_width(get_monster_effects_name(monsters[i]->specialEffect)));
         printf(" │");
     }
     if (nbMonsters == 0) print_chars(" ", 43);
@@ -242,10 +251,10 @@ void display_combat_main(Diver* player, Monster monsters[], int nbMonsters) {
     if (nbMonsters > 2) {
         for (int i = 2; i < nbMonsters && i < 4; i++) {
             printf(" ");
-            printf("│ %s ", monsters[i].icon);
-            printf("%.*s", 13, monsters[i].name);
-            if (strlen(monsters[i].name) < 13)
-                print_chars(" ", 13 - calculate_text_width(monsters[i].name));
+            printf("│ %s ", monsters[i]->icon);
+            printf("%.*s", 13, monsters[i]->name);
+            if (strlen(monsters[i]->name) < 13)
+                print_chars(" ", 13 - calculate_text_width(monsters[i]->name));
             printf(" │");
         }
 
@@ -265,7 +274,7 @@ void display_combat_main(Diver* player, Monster monsters[], int nbMonsters) {
     if (nbMonsters > 2) {
         for (int i = 2; i < nbMonsters && i < 4; i++) {
             printf(" ");
-            printf("│ PV: %3d/%-3d      │", monsters[i].health, monsters[i].maxHealth);
+            printf("│ PV: %3d/%-3d      │", monsters[i]->health, monsters[i]->maxHealth);
         }
         if (nbMonsters == 3) print_chars(" ", 22);
         if (nbMonsters >= 4) print_chars(" ", 1);
@@ -280,9 +289,9 @@ void display_combat_main(Diver* player, Monster monsters[], int nbMonsters) {
     if (nbMonsters > 2) {
         for (int i = 2; i < nbMonsters && i < 4; i++) {
             printf(" ");
-            printf("│ Effet: %.9s", strcmp(monsters[i].specialEffect, "aucun") == 0 ? "Aucun" : monsters[i].specialEffect);
-            if (strlen(monsters[i].specialEffect) < 9)
-                print_chars(" ", 9 - calculate_text_width(monsters[i].specialEffect));
+            printf("│ Effet: %.9s", get_monster_effects_name(monsters[i]->specialEffect));
+            if (strlen(get_monster_effects_name(monsters[i]->specialEffect)) < 9)
+                print_chars(" ", 9 - calculate_text_width(get_monster_effects_name(monsters[i]->specialEffect)));
             printf(" │");
         }
         if (nbMonsters == 3) print_chars(" ", 22);
@@ -320,14 +329,14 @@ void display_input() {
     printf("> ");
 }
 
-void display_combat_interface(Diver* player, Monster creatures[], int creatureCount, int depth) {
-    display_header(depth, player->pearls);
+void display_combat_interface(const int* remainingAttacks) {
+    display_header(player->pearls);
     display_separator();
 
     // Main
     display_empty_line();
 
-    display_combat_main(player, creatures, creatureCount);
+    display_combat_main(*monstersCount);
 
     display_empty_line();
     display_separator();
@@ -335,10 +344,107 @@ void display_combat_interface(Diver* player, Monster creatures[], int creatureCo
     display_action_menu_title();
     display_empty_line();
 
-    display_combat_actions_menu(player, 3);
+    display_combat_actions_menu(*remainingAttacks);
     display_empty_line();
     display_footer();
 
     // Input
     display_input();
+}
+
+void display_monsters_infos() {
+    display_header(player->pearls);
+    display_separator();
+
+    // Main
+    display_empty_line();
+
+    for (int i = 0; i < *monstersCount; ++i) {
+        printf("%s", BORDER_CHAR);
+        printf(" [%d] %s %s", i + 1, monsters[i]->icon, monsters[i]->name);
+        print_chars(" ", INNER_WIDTH - calculate_text_width(monsters[i]->name) - calculate_text_width(monsters[i]->icon) - 4);
+        printf("%s\n", BORDER_CHAR);
+
+        printf("%s", BORDER_CHAR);
+        printf("     PV: %d/%d", monsters[i]->health, monsters[i]->maxHealth);
+        print_chars(" ", INNER_WIDTH - calculate_number_width(monsters[i]->health) - calculate_number_width(monsters[i]->maxHealth) - 10);
+        printf("%s\n", BORDER_CHAR);
+
+        printf("%s", BORDER_CHAR);
+        printf("     Attaque: %d - %d", monsters[i]->minAttack, monsters[i]->maxAttack);
+        print_chars(" ", INNER_WIDTH - calculate_number_width(monsters[i]->minAttack) - calculate_number_width(monsters[i]->maxAttack) - 17);
+        printf("%s\n", BORDER_CHAR);
+
+        printf("%s", BORDER_CHAR);
+        printf("     Défense: %d", monsters[i]->defense);
+        print_chars(" ", INNER_WIDTH - calculate_number_width(monsters[i]->defense) - 14);
+        printf("%s\n", BORDER_CHAR);
+
+        printf("%s", BORDER_CHAR);
+        printf("     Vitesse: %d", monsters[i]->speed);
+        print_chars(" ", INNER_WIDTH - calculate_number_width(monsters[i]->speed) - 14);
+        printf("%s\n", BORDER_CHAR);
+
+        printf("%s", BORDER_CHAR);
+        printf("     Effet Spécial: %s", get_monster_effects_name(monsters[i]->specialEffect));
+        print_chars(" ", INNER_WIDTH - calculate_text_width(get_monster_effects_name(monsters[i]->specialEffect)) - 20);
+        printf("%s\n", BORDER_CHAR);
+
+        printf("%s", BORDER_CHAR);
+        printf("     Desc : %s", get_monster_effects_description(monsters[i]->specialEffect));
+        print_chars(" ", INNER_WIDTH - calculate_text_width(get_monster_effects_description(monsters[i]->specialEffect)) - 12);
+        printf("%s\n", BORDER_CHAR);
+
+        if (i < *monstersCount - 1)
+            display_empty_line();
+    }
+
+
+    display_empty_line();
+    display_footer();
+
+    printf("Appuyer sur Entrée pour continuer...");
+}
+
+void display_target_selection_menu() {
+    display_header(player->pearls);
+    display_separator();
+
+    // Main
+    display_empty_line();
+
+    display_combat_main(*monstersCount);
+
+    display_empty_line();
+    display_separator();
+    // Footer
+    display_action_menu_title();
+    display_empty_line();
+
+    // Target Selection
+    printf("%s", BORDER_CHAR);
+    char targetTitle[] = "🎯 SÉLECTION DE CIBLE :";
+    printf(" %s", targetTitle);
+    print_chars(" ", INNER_WIDTH - calculate_text_width(targetTitle) + 2);
+    printf("%s\n", BORDER_CHAR);
+    for (int i = 0; i < *monstersCount; i++) {
+        printf("%s", BORDER_CHAR);
+        printf(" [%d] %s (PV: %d/%d)", i + 1, monsters[i]->name, monsters[i]->health, monsters[i]->maxHealth);
+        print_chars(
+            " ", INNER_WIDTH - calculate_text_width(monsters[i]->name) - calculate_number_width(monsters[i]->health) - calculate_number_width(
+                monsters[i]->maxHealth) - 13);
+        printf("%s\n", BORDER_CHAR);
+    }
+
+    display_empty_line();
+    display_footer();
+
+    // Input
+    display_input();
+
+    // printf("Sélectionnez une cible :\n");
+    // for (int i = 0; i < *monstersCount; i++) {
+    //     printf(" [%d] %s (PV: %d/%d)\n", i + 1, monsters[i]->name, monsters[i]->health, monsters[i]->maxHealth);
+    // }
+    // printf("Votre choix : ");
 }

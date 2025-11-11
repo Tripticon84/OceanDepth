@@ -4,11 +4,24 @@
 #include "../monster/monster.h"
 #include "../player/player.h"
 #include "../inventory/inventory.h"
+#include "../map/map.h"
 #include <stdio.h>
 
-int save_game(int slot, Diver* player, Inventory* inv, int depth, const char* zone, Monster monsters[], int monstersCount);
+// Structure d'une save
+typedef struct {
+    Diver player;
+    int depth;
+    Zone zone;
+    int monstersCount;
+    Monster monsters[100];
+} SaveData;
 
-int load_game(int slot, Diver* player, Inventory* inv, int* depth, char* zone, Monster monsters[], int* monstersCount);
+extern SaveData saveData;
+
+
+int save_game(int slot, int depth, const char* zone);
+
+int load_game(int slot, int* depth, char* zone);
 
 void display_saves_menu(void);
 

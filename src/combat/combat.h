@@ -1,34 +1,27 @@
 #ifndef OCEANDEPTH_COMBAT_H
 #define OCEANDEPTH_COMBAT_H
 
-#include "../player/player.h"
 #include "../monster/monster.h"
-#include "../inventory/inventory.h"
 
 
 // Attaque du plongeur
 
+void player_attack_monster(Monster* target);
 
-int can_attack(Diver *player);
+int calculate_player_damage(Monster* target);
 
-void attack_monster(Diver *player, Monster *target, Item *weapon);
+void consume_oxygen(int cost);
 
-int calculate_player_damage(Diver *player, Item *weapon, Monster *target);
-
-void consume_oxygen(Diver *player, int cost);
-
-void increase_fatigue(Diver *player);
+void increase_fatigue();
 
 // Attaque d'un monstre
 
-void sort_monster_by_speed(Monster list[], int count);
+void monster_attacks_player(Monster* monster, SpecialEffect specialEffect);
 
-void monster_attacks_player(Monster *monster, Diver *player);
+int calculate_monster_damage(Monster* monster);
 
-void apply_special_effect(Monster *monster, Diver *player, int *fatigueModifier);
+void handle_combat_input(int* remainingAttacks, bool* finishTurn);
 
-int calculate_monster_damage(Monster *monster, Diver *player, Item *wetsuit);
-
-// Compétences
+int max_attacks_per_turn(void);
 
 #endif //OCEANDEPTH_COMBAT_H

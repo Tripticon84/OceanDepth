@@ -7,7 +7,7 @@
 #include "../game/game.h"
 
 
-int save_game(int slot, Diver* player, Inventory* inv, int depth, const char* zone, Monster monsters[], int monstersCount) {
+int save_game(int slot, int depth, const char* zone) {
     char filePath[50];
     snprintf(filePath, sizeof(filePath), "save_slot_%d.dat", slot);
     FILE* file = fopen(filePath, "wb");
@@ -15,17 +15,16 @@ int save_game(int slot, Diver* player, Inventory* inv, int depth, const char* zo
         return -1; // Erreur lors de l'ouverture du fichier
     }
     fwrite(player, sizeof(Diver), 1, file);
-    // fwrite(inv, sizeof(Inventory), 1, file);
     fwrite(&depth, sizeof(int), 1, file);
-    fwrite(zone, sizeof(char) * 50, 1, file); // Supposons que la zone a une taille maximale de 50 caractères
+    fwrite(zone, sizeof(char) * 50, 1, file);
     fwrite(&monstersCount, sizeof(int), 1, file);
-    fwrite(monsters, sizeof(Monster), monstersCount, file);
+    fwrite(monsters, sizeof(Monster), *monstersCount, file);
 
     fclose(file);
     return 0; // Succès
 }
 
-int load_game(int slot, Diver* player, Inventory* inv, int* depth, char* zone, Monster monsters[], int* monstersCount) {
+int load_game(int slot, int* depth, char* zone) {
     char filePath[50];
     snprintf(filePath, sizeof(filePath), "save_slot_%d.dat", slot);
     FILE* file = fopen(filePath, "rb");
@@ -34,9 +33,8 @@ int load_game(int slot, Diver* player, Inventory* inv, int* depth, char* zone, M
     }
 
     fread(player, sizeof(Diver), 1, file);
-    // fread(inv, sizeof(Inventory), 1, file);
     fread(depth, sizeof(int), 1, file);
-    fread(zone, sizeof(char) * 50, 1, file); // Supposons que la zone a une taille maximale de 50 caractères
+    fread(zone, sizeof(char) * 50, 1, file);
     fread(monstersCount, sizeof(int), 1, file);
     fread(monsters, sizeof(Monster), *monstersCount, file);
 
@@ -119,7 +117,7 @@ void display_saves_menu(void) {
     }
 
     printf("║ ");
-    printf("[Q] Retour au menu principal");
+    printf("[R] Retour au menu principal");
     print_chars(" ", INNER_WIDTH - 41);
     printf("║\n");
 
@@ -147,7 +145,7 @@ void handle_load_save_menu_input(void) {
             Monster monsters[10]; // Supposons un maximum de 10 monstres
             int monstersCount;
 
-            if (load_game(slot, &player, &inv, &depth, zone, monsters, &monstersCount) == 0) {
+            if (load_game(slot, &depth, zone) == 0) {
                 // Succès du chargement
                 currentGameState = GAME_STATE_PLAYING;
             } else {
@@ -157,6 +155,8 @@ void handle_load_save_menu_input(void) {
             }
             break;
         }
+        case 'R':
+        case 'r':
         case 'q':
         case 'Q':
             // Retour au menu principal
@@ -189,14 +189,10 @@ void handle_create_save_menu_input(void) {
             }
 
             // Sauvegarder la partie dans le slot choisi
-            Diver player;
-            Inventory inv;
-            int depth = 100;                  // Exemple de profondeur
-            const char* zone = "Corail Bleu"; // Exemple de zone
-            Monster monsters[10];             // Supposons un maximum de 10 monstres
-            int monstersCount = 0;            // Exemple de nombre de monstres
+            int depth = 0;
+            const char* zone = "Corail Bleu";
 
-            if (save_game(slot, &player, &inv, depth, zone, monsters, monstersCount) == 0) {
+            if (save_game(slot, depth, zone) == 0) {
                 // Succès de la sauvegarde
                 printf("Sauvegarde %d créée avec succès.\n", slot);
                 sleep_ms(1000);
@@ -207,6 +203,8 @@ void handle_create_save_menu_input(void) {
             }
             break;
         }
+        case 'q':
+        case 'Q':
         case 'r':
         case 'R':
             // Retour au menu principal

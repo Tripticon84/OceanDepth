@@ -1,5 +1,6 @@
 #include "player.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 
 
@@ -9,10 +10,48 @@ void init_player(Diver* player) {
     player->maxOxygen = 100;
     player->oxygen = player->maxOxygen;
     player->maxTiredness = 5;
-    player->tiredness = 1;
+    player->tiredness = 0;
     player->pearls = 10;
-    // player->inventory = inv;
+    init_starting_inventory(&player->inventory);
 }
 
 void clean_player(Diver* player) { free(player); }
 
+void print_player(Diver* player) {
+    printf("=== Plongeur ===\n");
+    printf("Santé: %d/%d\n", player->health, player->maxHealth);
+    printf("Oxygène: %d/%d\n", player->oxygen, player->maxOxygen);
+    printf("Fatigue: %d/%d\n", player->tiredness, player->maxTiredness);
+    printf("Perles: %d\n", player->pearls);
+    printf("=== Équipement Équipé ===\n");
+    if (player->inventory.equipedWeapon != NULL) {
+        printf("Arme: %s\n", player->inventory.equipedWeapon->name);
+    } else {
+        printf("Arme: Aucune\n");
+    }
+    if (player->inventory.equipedHelmet != NULL) {
+        printf("Casque: %s\n", player->inventory.equipedHelmet->name);
+    } else {
+        printf("Casque: Aucun\n");
+    }
+    if (player->inventory.equipedSuit != NULL) {
+        printf("Combinaison: %s\n", player->inventory.equipedSuit->name);
+    } else {
+        printf("Combinaison: Aucune\n");
+    }
+    if (player->inventory.equipedGloves != NULL) {
+        printf("Gants: %s\n", player->inventory.equipedGloves->name);
+    } else {
+        printf("Gants: Aucun\n");
+    }
+    if (player->inventory.equipedBoots != NULL) {
+        printf("Bottes: %s\n", player->inventory.equipedBoots->name);
+    } else {
+        printf("Bottes: Aucune\n");
+    }
+    printf("=== Inventaire ===\n");
+    for (int i = 0; i < player->inventory.nb_objets; i++) {
+        Item* item = &player->inventory.objets[i];
+        printf("%d. %s (x%d) - Rareté: %d\n", i + 1, item->name, item->quantity, item->rarity);
+    }
+}
