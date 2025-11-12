@@ -28,6 +28,7 @@
 ### Combats
 
 - [X] Affichage combat
+- [ ] Afficher les logs du combat 
 - [X] Gestion des tours (ordre des actions)
 - [X] Gestion des actions joueur
 - [X] Gestion de la fatigue
