@@ -3,12 +3,23 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
+#ifdef _WIN32
+#include <conio.h>
+#endif
 
 #include "utils/utils.h"
 
 #define SHOP_COLUMNS 4
 #define SHOP_ROWS 2
 #define SHOP_SLOT_COUNT (SHOP_COLUMNS * SHOP_ROWS)
+
+enum {
+    KEY_ARROW_UP = 1000,
+    KEY_ARROW_DOWN,
+    KEY_ARROW_LEFT,
+    KEY_ARROW_RIGHT,
+    KEY_ENTER_KEY
+};
 
 typedef struct {
     Item item;
@@ -251,25 +262,80 @@ static void render_shop(int depthMeters, const char* message) {
     printf("╚══════════════════════════════════════════════════════════════════╝\n");
 }
 
-static void move_selection(char input) {
-    switch (input) {
+static int read_input_key(void) {
+#ifdef _WIN32
+    int ch = _getch();
+    if (ch == 0 || ch == 224) {
+        int arrow = _getch();
+        switch (arrow) {
+            case 72:
+                return KEY_ARROW_UP;
+            case 80:
+                return KEY_ARROW_DOWN;
+            case 75:
+                return KEY_ARROW_LEFT;
+            case 77:
+                return KEY_ARROW_RIGHT;
+            default:
+                return 0;
+        }
+    }
+
+    if (ch == '\r')
+        return KEY_ENTER_KEY;
+
+    return ch;
+#else
+    int ch = getchar();
+    if (ch == '\033') {
+        int next = getchar();
+        if (next == '[') {
+            int arrow = getchar();
+            switch (arrow) {
+                case 'A':
+                    return KEY_ARROW_UP;
+                case 'B':
+                    return KEY_ARROW_DOWN;
+                case 'C':
+                    return KEY_ARROW_RIGHT;
+                case 'D':
+                    return KEY_ARROW_LEFT;
+                default:
+                    return 0;
+            }
+        }
+    }
+
+    if (ch == '\n')
+        return KEY_ENTER_KEY;
+
+    return ch;
+#endif
+}
+
+static void move_selection(int key) {
+    switch (key) {
         case 'z':
         case 'Z':
+        case KEY_ARROW_UP:
             if (selectedIndex >= SHOP_COLUMNS)
                 selectedIndex -= SHOP_COLUMNS;
             break;
         case 's':
         case 'S':
+        case KEY_ARROW_DOWN:
             if (selectedIndex < SHOP_SLOT_COUNT - SHOP_COLUMNS)
                 selectedIndex += SHOP_COLUMNS;
             break;
         case 'q':
         case 'Q':
+        case KEY_ARROW_LEFT:
             if (selectedIndex % SHOP_COLUMNS != 0)
                 selectedIndex -= 1;
             break;
         case 'd':
         case 'D':
+        case KEY_ARROW_RIGHT:
             if ((selectedIndex + 1) % SHOP_COLUMNS != 0)
                 selectedIndex += 1;
             break;
@@ -323,25 +389,22 @@ void showShop(int maxDepthMeters) {
     while (true) {
         render_shop(maxDepthMeters, message);
         printf("> ");
-        int input = getchar();
-        if (input == EOF)
-            break;
-
-        if (input == '\n') {
+        int key = read_input_key();
+        if (key == 0)
             continue;
-        }
 
-        clear_input_buffer();
+        if (key == KEY_ENTER_KEY)
+            continue;
 
-        if (input == 'x' || input == 'X') {
+        if (key == 'x' || key == 'X') {
             break;
         }
 
-        if (input == 'e' || input == 'E') {
+        if (key == 'e' || key == 'E') {
             attempt_purchase(message, sizeof(message));
             continue;
         }
 
-        move_selection((char)input);
+        move_selection(key);
     }
 }
