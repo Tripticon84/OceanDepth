@@ -20,6 +20,9 @@ int main(void) {
     menu_loop();
     // combat_loop();
 
+    // Pour la boutique:
+    // setup_shop(player, inventory);
+    // showShop(150); // 150 m = palier 3 de rareté (j'ai fait par multiples de 50m)
 
     // save_game(1, player, NULL, 100, "Zone Test 1", (Monster[]){monster1, monster2, monster3, monster4}, 4);
     // save_game(2, player, NULL, 200, "Zone Test 22", (Monster[]){monster1, monster2, monster3, monster4}, 4);
