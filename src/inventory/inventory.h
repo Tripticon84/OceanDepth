@@ -1,8 +1,6 @@
 #ifndef OCEANDEPTH_INVENTORY_H
 #define OCEANDEPTH_INVENTORY_H
 
-#include "../player/player.h"
-
 
 enum type {
     // Divers
@@ -70,7 +68,7 @@ void add_item(Inventory* inv, Item newItem);
 
 Item generate_random_item(int rarity);
 
-void use_item(Inventory* inv, int index, Diver* player);
+void use_item(Inventory* inv, int index);
 
 void equip_weapon(Inventory* inv, int index);
 
