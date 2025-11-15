@@ -43,7 +43,7 @@ extern const MonsterType MONSTER_TYPES[NUMBER_OF_MONSTER_TYPES];
 
 typedef struct {
     int id;
-    char icon[5]; // Emoji représentant le monstre
+    char icon[5];
     char name[100];
     int health;
     int maxHealth;
@@ -52,7 +52,7 @@ typedef struct {
     int defense;
     int speed;
     SpecialEffect specialEffect;
-    bool isAlive; // 1 pour vivant, 0 pour mort
+    bool isAlive;
 } Monster;
 
 /**

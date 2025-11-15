@@ -1,13 +1,16 @@
-
 #include "save.h"
+#include <stdio.h>
 #include <windows.h>
 
 #include "../display_combat/display_combat.h"
-#include "../utils/utils.h"
 #include "../game/game.h"
+#include "../utils/utils.h"
 
+int create_save(int slot) {
+    Diver tempPlayer;
+}
 
-int save_game(int slot, int depth, const char* zone) {
+int save_game(int slot) {
     char filePath[50];
     snprintf(filePath, sizeof(filePath), "save_slot_%d.dat", slot);
     FILE* file = fopen(filePath, "wb");
@@ -16,28 +19,31 @@ int save_game(int slot, int depth, const char* zone) {
     }
     fwrite(player, sizeof(Diver), 1, file);
     fwrite(&depth, sizeof(int), 1, file);
-    fwrite(zone, sizeof(char) * 50, 1, file);
-    fwrite(&monstersCount, sizeof(int), 1, file);
-    fwrite(monsters, sizeof(Monster), *monstersCount, file);
+    fwrite(&gameMap.numZones, sizeof(int), 1, file);
+    fwrite(gameMap.zones, sizeof(Zone), gameMap.numZones + 1, file);
 
     fclose(file);
     return 0; // Succès
 }
 
-int load_game(int slot, int* depth, char* zone) {
+int load_game(int slot) {
     char filePath[50];
     snprintf(filePath, sizeof(filePath), "save_slot_%d.dat", slot);
     FILE* file = fopen(filePath, "rb");
     if (file == NULL) {
-        return -1; // Erreur lors de l'ouverture du fichier
+        return -1;
     }
 
     fread(player, sizeof(Diver), 1, file);
-    fread(depth, sizeof(int), 1, file);
-    fread(zone, sizeof(char) * 50, 1, file);
-    fread(monstersCount, sizeof(int), 1, file);
-    fread(monsters, sizeof(Monster), *monstersCount, file);
-
+    fread(&depth, sizeof(int), 1, file);
+    fread(&gameMap.numZones, sizeof(int), 1, file);
+    gameMap.zones = realloc(gameMap.zones, sizeof(Zone) * (gameMap.numZones + 1));
+    if (gameMap.zones == NULL) {
+        fclose(file);
+        return -2;
+    }
+    // Charger numZones + 1 zones
+    fread(gameMap.zones, sizeof(Zone), gameMap.numZones + 1, file);
     fclose(file);
     return 0;
 }
@@ -64,42 +70,48 @@ void get_saves_infos(int slot) {
         return;
     }
 
-    Diver player;
-    Inventory inv;
-    int depth;
-    char zone[50];
-    int monstersCount;
+    Diver tempPlayer;
+    int tempDepth;
+    Map tempMap;
 
-    fread(&player, sizeof(Diver), 1, file);
-    // fread(&inv, sizeof(Inventory), 1, file);
-    fread(&depth, sizeof(int), 1, file);
-    fread(zone, sizeof(char) * 50, 1, file);
-    fread(&monstersCount, sizeof(int), 1, file);
+    fread(&tempPlayer, sizeof(Diver), 1, file);
+    fread(&tempDepth, sizeof(int), 1, file);
+    fread(&tempMap.numZones, sizeof(int), 1, file);
+
+    tempMap.zones = malloc(sizeof(Zone) * (tempMap.numZones + 1));
+    if (tempMap.zones == NULL) {
+        fclose(file);
+        printf("Erreur de mémoire lors de la lecture de la sauvegarde %d.\n", slot);
+        free(tempMap.zones);
+        return;
+    }
+    fread(tempMap.zones, sizeof(Zone), tempMap.numZones + 1, file);
 
     printf("Slot %d :", slot);
     print_chars(" ", INNER_WIDTH - 25);
     printf("║\n");
 
-    printf("║   Profondeur : %dm", depth);
-    print_chars(" ", INNER_WIDTH - calculate_number_width(depth) - 29);
+    printf("║   Profondeur : %dm", tempDepth);
+    print_chars(" ", INNER_WIDTH - calculate_number_width(tempDepth) - 29);
     printf("║\n");
 
-    printf("║   Zone : %s", zone);
-    print_chars(" ", INNER_WIDTH - calculate_text_width(zone) - 22);
+    printf("║   Zone : %s", tempMap.zones[tempPlayer.zoneIndex].cases[tempPlayer.caseIndex].name);
+    print_chars(" ", INNER_WIDTH - calculate_text_width(tempMap.zones[tempPlayer.zoneIndex].cases[tempPlayer.caseIndex].name) - 22);
     printf("║\n");
 
-    printf("║   Santé : %d/%d", player.health, player.maxHealth);
-    print_chars(" ", INNER_WIDTH - calculate_number_width(player.health) - calculate_number_width(player.maxHealth) - 24);
+    printf("║   Santé : %d/%d", tempPlayer.health, tempPlayer.maxHealth);
+    print_chars(" ", INNER_WIDTH - calculate_number_width(tempPlayer.health) - calculate_number_width(tempPlayer.maxHealth) - 24);
     printf("║\n");
 
-    printf("║   Oxygène : %d/%d", player.oxygen, player.maxOxygen);
-    print_chars(" ", INNER_WIDTH - calculate_number_width(player.oxygen) - calculate_number_width(player.maxOxygen) - 26);
+    printf("║   Oxygène : %d/%d", tempPlayer.oxygen, tempPlayer.maxOxygen);
+    print_chars(" ", INNER_WIDTH - calculate_number_width(tempPlayer.oxygen) - calculate_number_width(tempPlayer.maxOxygen) - 26);
     printf("║\n");
 
-    printf("║   Perles : %d", player.pearls);
-    print_chars(" ", INNER_WIDTH - calculate_number_width(player.pearls) - 24);
+    printf("║   Perles : %d", tempPlayer.pearls);
+    print_chars(" ", INNER_WIDTH - calculate_number_width(tempPlayer.pearls) - 24);
     printf("║\n");
 
+    free(tempMap.zones);
     fclose(file);
 }
 
@@ -137,15 +149,7 @@ void handle_load_save_menu_input(void) {
         case '3': {
             int slot = input - '0';
 
-            // Charger la partie depuis le slot choisi
-            Diver player;
-            Inventory inv;
-            int depth;
-            char zone[50];
-            Monster monsters[10]; // Supposons un maximum de 10 monstres
-            int monstersCount;
-
-            if (load_game(slot, &depth, zone) == 0) {
+            if (load_game(slot) == 0) {
                 // Succès du chargement
                 currentGameState = GAME_STATE_PLAYING;
             } else {
@@ -192,7 +196,7 @@ void handle_create_save_menu_input(void) {
             int depth = 0;
             const char* zone = "Corail Bleu";
 
-            if (save_game(slot, depth, zone) == 0) {
+            if (save_game(slot) == 0) {
                 // Succès de la sauvegarde
                 printf("Sauvegarde %d créée avec succès.\n", slot);
                 sleep_ms(1000);

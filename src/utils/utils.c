@@ -100,6 +100,19 @@ void print_chars(char* ch, int count) {
     }
 }
 
+void print_centered(const char* text, int width) {
+    int len = strlen(text);
+    if (len >= width) {
+        printf("%.*s", width, text);
+        return;
+    }
+    int left = (width - len) / 2;
+    int right = width - len - left;
+    for (int i = 0; i < left; i++) putchar(' ');
+    printf("%s", text);
+    for (int i = 0; i < right; i++) putchar(' ');
+}
+
 int calculate_text_width(const char* text) {
     return (int)strlen(text);
 }

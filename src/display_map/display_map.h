@@ -1,0 +1,6 @@
+#ifndef OCEANDEPTH_DISPLAY_MAP_H
+#define OCEANDEPTH_DISPLAY_MAP_H
+
+void display_map();
+
+#endif //OCEANDEPTH_DISPLAY_MAP_H

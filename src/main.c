@@ -33,6 +33,7 @@ int main(void) {
         free(monsters[i]);
     }
     free(monstersCount);
+    free(gameMap.zones);
     // clean_inventory(inv);
 
     return 0;

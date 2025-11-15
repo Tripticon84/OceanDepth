@@ -76,7 +76,7 @@ void display_combat_actions_menu(int remainingAttacks) {
     char opt1[] = "Attaquer avec %s (%d attaques restantes)";
 
     char buffer[100];
-    snprintf(buffer, sizeof(buffer), opt1, player->inventory.equipedWeapon->name, remainingAttacks);
+    snprintf(buffer, sizeof(buffer), opt1, player->inventory.equipedWeapon.name, remainingAttacks);
 
     printf("%s", buffer);
     print_chars(" ", INNER_WIDTH - calculate_text_width(buffer) - 4);

@@ -1,11 +1,9 @@
 #ifndef OCEANDEPTH_SAVE_H
 #define OCEANDEPTH_SAVE_H
 
+#include "../map/map.h"
 #include "../monster/monster.h"
 #include "../player/player.h"
-#include "../inventory/inventory.h"
-#include "../map/map.h"
-#include <stdio.h>
 
 // Structure d'une save
 typedef struct {
@@ -19,9 +17,9 @@ typedef struct {
 extern SaveData saveData;
 
 
-int save_game(int slot, int depth, const char* zone);
+int save_game(int slot);
 
-int load_game(int slot, int* depth, char* zone);
+int load_game(int slot);
 
 void display_saves_menu(void);
 
