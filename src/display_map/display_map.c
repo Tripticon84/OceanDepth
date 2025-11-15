@@ -1,0 +1,125 @@
+#include "display_map.h"
+
+#include <stdio.h>
+#include <string.h>
+
+#include "../game/game.h"
+#include "../utils/utils.h"
+
+void display_map() {
+    // En-tête
+    printf("╔══════════════════════════════════════════════════════════════════════════════╗\n");
+    printf("║");
+    print_centered("🗺️ CARTOGRAPHIE OCÉANIQUE", 84);
+    printf("║\n");
+    printf("╠══════════════════════════════════════════════════════════════════════════════╣\n");
+    printf("║                                                                              ║\n");
+
+    // Coordonnées X
+    printf("║   X→       1            2            3            4            5             ║\n");
+    printf("║  Y↓ ┌────────────┬────────────┬────────────┬────────────┬────────────┐       ║\n");
+
+    // Afficher chaque zone (ligne)
+    for (int zoneIdx = 0; zoneIdx <= gameMap.numZones; zoneIdx++) {
+        Zone* zone = &gameMap.zones[zoneIdx];
+
+        // Ligne 1 : Icônes et nom de zone
+        printf("║     │");
+        for (int caseIdx = 0; caseIdx < 4; caseIdx++) {
+            CaseZone* caseZone = &zone->cases[caseIdx];
+            if (is_case_zone_visible(zoneIdx, caseIdx)) {
+                if (player->zoneIndex == zoneIdx && player->caseIndex == caseIdx)
+                    printf("     🤿     │");
+                else
+                    printf("     %s     │", caseZone->icon);
+            } else {
+                printf("     ❓     │");
+            }
+        }
+        print_chars(" ", 12);
+        printf("│       ║\n");
+
+        // Ligne 2 : Noms
+        printf("║");
+        print_chars(" ", 4 - calculate_number_width(zoneIdx + 1));
+        printf("%d │", zoneIdx + 1);
+
+        for (int caseIdx = 0; caseIdx < 4; caseIdx++) {
+            CaseZone* caseZone = &zone->cases[caseIdx];
+            if (is_case_zone_visible(zoneIdx, caseIdx)) {
+                print_centered(caseZone->name, 12);
+                printf("│");
+            } else {
+                printf("  Inconnu   │");
+            }
+        }
+        printf(" ZONE %d", zoneIdx + 1);
+        print_chars(" ", 6 - calculate_number_width(zoneIdx + 1));
+
+        printf("│ %dm", -zone->depth);
+        print_chars(" ", 5 - calculate_number_width(-zone->depth));
+        printf("║\n");
+
+        // Ligne 3 : Informations (ennemis, type)
+        printf("║     │");
+        for (int caseIdx = 0; caseIdx < 4; caseIdx++) {
+            CaseZone* caseZone = &zone->cases[caseIdx];
+            if (is_case_zone_visible(zoneIdx, caseIdx)) {
+                if (caseZone->type == SHOP) {
+                    printf("   [SHOP]   │");
+                } else if (caseZone->type == CAVE) {
+                    printf("   [SAUF]   │");
+                } else if (caseZone->hasBeenDefeated == true) {
+                    printf("   [BATTU]  │");
+                } else if (caseZone->maxMonsterCount > 0) {
+                    if (caseZone->minMonsterCount == caseZone->maxMonsterCount) {
+                        printf("  [%d ENM]   │", caseZone->maxMonsterCount);
+                    } else {
+                        printf("  [%d-%d ENM] │", caseZone->minMonsterCount, caseZone->maxMonsterCount);
+                    }
+                } else {
+                    printf("            │");
+                }
+            } else {
+                printf("            │");
+            }
+        }
+        printf("            │       ║\n");
+
+        // Séparateur ou fin
+        if (zoneIdx < gameMap.numZones) {
+            printf("║     ├────────────┼────────────┼────────────┼────────────┼────────────┤       ║\n");
+        } else {
+            printf("║     └────────────┴────────────┴────────────┴────────────┴────────────┘       ║\n");
+        }
+    }
+
+    printf("║                                                                              ║\n");
+    printf("╠══════════════════════════════════════════════════════════════════════════════╣\n");
+    printf("║                                                                              ║\n");
+
+    // Position actuelle du joueur
+    CaseZone* currentCase = &gameMap.zones[player->zoneIndex].cases[player->caseIndex];
+    printf(
+        "║  Position actuelle : [%-4s] X%d-Y%d %s (%dm)",
+        currentCase->icon,
+        player->caseIndex + 1, player->zoneIndex + 1,
+        currentCase->name,
+        -gameMap.zones[player->zoneIndex].depth);
+    print_chars(
+        " ", 46
+        - calculate_text_width(currentCase->icon)
+        - calculate_number_width(player->caseIndex + 1)
+        - calculate_number_width(player->zoneIndex + 1)
+        - calculate_text_width(currentCase->name)
+        - calculate_number_width(gameMap.zones[player->zoneIndex].depth)
+    );
+    printf("║\n");
+
+    printf("║                                                                              ║\n");
+
+    // Menu // TODO : ACTION DYNAMIQUE en fonction de la case
+    printf("╠══════════════════════════════════════════════════════════════════════════════╣\n");
+    printf("║  1-Se déplacer  2-Explorer zone  3-Retour surface  4-Carte détaillée         ║\n");
+    printf("╚══════════════════════════════════════════════════════════════════════════════╝\n");
+}

@@ -11,7 +11,7 @@
 
 - [X] Génération d'une créature
 - [ ] Effets spéciaux des créatures
-  - Manque Méduse
+    - Manque Méduse
 - [ ] Génération aléatoire de créatures pour une zone
 
 ### Joueur
@@ -28,7 +28,7 @@
 ### Combats
 
 - [X] Affichage combat
-- [ ] Afficher les logs du combat 
+- [ ] Afficher les logs du combat
 - [X] Gestion des tours (ordre des actions)
 - [X] Gestion des actions joueur
 - [X] Gestion de la fatigue
@@ -47,17 +47,16 @@
 
 - [X] Affichage du menu de sauvegarde
 - [ ] Sauvegarde possible uniquement en surface
-- [ ] Sauvegarde du joueur
-- [ ] Sauvegarde de l'inventaire
-- [ ] Sauvegarde des créatures
-- [ ] Sauvegarde des zones
+- [X] Sauvegarde du joueur
+- [X] Sauvegarde de l'inventaire
+- [X] Sauvegarde des zones
 
 #### Chargement
 
-- [ ] Chargement du joueur
-- [ ] Chargement de l'inventaire
-- [ ] Chargement des créatures
-- [ ] Chargement des zones
+- [X] Chargement du joueur
+- [X] Chargement de l'inventaire
+- [X] Chargement des créatures
+- [X] Chargement des zones
 
 ### Compétences
 
@@ -67,7 +66,7 @@
 
 ### Map
 
-- [ ] Affichage de la map
+- [X] Affichage de la map
 - [ ] Gestion des déplacements
 - [ ] Retour en surface
 - [ ] Détail d'une zone
@@ -96,7 +95,7 @@
 - [X] Étape 2 : Attaque joueur
 - [X] Étape 3 : Attaque créatures
 - [X] Étape 4 : Récompenses
-- [ ] Étape 5 : Sauvegarde/Chargement
+- [X] Étape 5 : Sauvegarde/Chargement
 - [ ] Étape 6 : Compétences
 - [ ] Étape 7 : Map/Zones
 

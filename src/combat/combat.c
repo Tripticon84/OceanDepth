@@ -37,8 +37,8 @@ int max_attacks_per_turn(void) {
 }
 
 int calculate_player_damage(Monster* target) {
-    int min_attack = player->inventory.equipedWeapon->minAttack;
-    int max_attack = player->inventory.equipedWeapon->maxAttack;
+    int min_attack = player->inventory.equipedWeapon.minAttack;
+    int max_attack = player->inventory.equipedWeapon.maxAttack;
     int base_damage = random(min_attack, max_attack) + min_attack;
     int final_damage = base_damage - target->defense;
     if (final_damage < 1) final_damage = 1;
@@ -117,7 +117,11 @@ void monster_attacks_player(Monster* monster, SpecialEffect specialEffect) {
 
 int calculate_monster_damage(Monster* monster) {
     int base_damage = random(monster->minAttack, monster->maxAttack);
-    int final_damage = base_damage - (player->inventory.equipedSuit != NULL ? player->inventory.equipedSuit->defenseBonus : 0 + player->inventory.equipedHelmet != NULL ? player->inventory.equipedHelmet->defenseBonus : 0);
+
+    int suit_defense = player->inventory.equipedSuit.defenseBonus;
+    int helmet_defense = player->inventory.equipedHelmet.defenseBonus;
+    int final_damage = base_damage - (suit_defense + helmet_defense);
+
     if (final_damage < 1) final_damage = 1;
 
     if (monster->specialEffect == MONSTER_EFFECT_SWORD_FISH) {

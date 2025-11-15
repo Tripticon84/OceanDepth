@@ -47,11 +47,11 @@ typedef struct {
 typedef struct {
     Item objets[8];
     int nb_objets;
-    Item* equipedWeapon;
-    Item* equipedHelmet;
-    Item* equipedSuit;
-    Item* equipedGloves;
-    Item* equipedBoots;
+    Item equipedWeapon;
+    Item equipedHelmet;
+    Item equipedSuit;
+    Item equipedGloves;
+    Item equipedBoots;
 } Inventory;
 
 void init_inventory(Inventory* inv);

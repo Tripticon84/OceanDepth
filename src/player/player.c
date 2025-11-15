@@ -13,6 +13,8 @@ void init_player(Diver* player) {
     player->tiredness = 0;
     player->pearls = 10;
     init_starting_inventory(&player->inventory);
+    player->zoneIndex = 0;
+    player->caseIndex = 0;
 }
 
 void clean_player(Diver* player) { free(player); }
@@ -24,31 +26,18 @@ void print_player(Diver* player) {
     printf("Fatigue: %d/%d\n", player->tiredness, player->maxTiredness);
     printf("Perles: %d\n", player->pearls);
     printf("=== Équipement Équipé ===\n");
-    if (player->inventory.equipedWeapon != NULL) {
-        printf("Arme: %s\n", player->inventory.equipedWeapon->name);
-    } else {
-        printf("Arme: Aucune\n");
-    }
-    if (player->inventory.equipedHelmet != NULL) {
-        printf("Casque: %s\n", player->inventory.equipedHelmet->name);
-    } else {
-        printf("Casque: Aucun\n");
-    }
-    if (player->inventory.equipedSuit != NULL) {
-        printf("Combinaison: %s\n", player->inventory.equipedSuit->name);
-    } else {
-        printf("Combinaison: Aucune\n");
-    }
-    if (player->inventory.equipedGloves != NULL) {
-        printf("Gants: %s\n", player->inventory.equipedGloves->name);
-    } else {
-        printf("Gants: Aucun\n");
-    }
-    if (player->inventory.equipedBoots != NULL) {
-        printf("Bottes: %s\n", player->inventory.equipedBoots->name);
-    } else {
-        printf("Bottes: Aucune\n");
-    }
+    printf("Arme: %s\n", player->inventory.equipedWeapon.name);
+    printf("Arme: Aucune\n");
+
+    printf("Casque: %s\n", player->inventory.equipedHelmet.name);
+    printf("Casque: Aucun\n");
+    printf("Combinaison: %s\n", player->inventory.equipedSuit.name);
+    printf("Combinaison: Aucune\n");
+    printf("Gants: %s\n", player->inventory.equipedGloves.name);
+    printf("Gants: Aucun\n");
+    printf("Bottes: %s\n", player->inventory.equipedBoots.name);
+    printf("Bottes: Aucune\n");
+
     printf("=== Inventaire ===\n");
     for (int i = 0; i < player->inventory.nb_objets; i++) {
         Item* item = &player->inventory.objets[i];

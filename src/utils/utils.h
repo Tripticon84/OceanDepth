@@ -32,6 +32,9 @@ int calculate_text_width(const char* text);
 // Calcule la taille d'un nombre
 int calculate_number_width(int number);
 
+// Affiche un texte centré dans une largeur donnée
+void print_centered(const char* text, int width);
+
 // Vide le buffer
 void clear_input_buffer(void);
 

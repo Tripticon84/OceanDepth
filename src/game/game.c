@@ -3,6 +3,7 @@
 
 #include "../combat/combat.h"
 #include "../display_combat/display_combat.h"
+#include "../display_map/display_map.h"
 #include "../menu/menu.h"
 #include "../save/save.h"
 #include "../utils/utils.h"
@@ -14,6 +15,7 @@ Monster* monsters[4];
 int* monstersCount = 0;
 Diver* player;
 int depth = 600;
+Map gameMap;
 
 void init_game(void) {
     player = malloc(sizeof(Diver));
@@ -21,8 +23,17 @@ void init_game(void) {
     for (int i = 0; i < 4; ++i) {
         monsters[i] = malloc(sizeof(Monster));
     }
+    gameMap.zones = malloc(sizeof(Zone));
+    if (!gameMap.zones) {
+        fprintf(stderr, "Erreur d\'allocation de la carte\n");
+        return;
+    }
 
     init_player(player);
+    first_init_zone();
+    init_next_zone();
+    init_next_zone();
+    init_next_zone();
 }
 
 void menu_loop(void) {
@@ -70,7 +81,7 @@ void menu_loop(void) {
                 handle_load_save_menu_input();
                 break;
             case GAME_STATE_PLAYING:
-                currentGameState = GAME_STATE_COMBAT;
+                currentGameState = GAME_STATE_MAP;
                 game_loop();
                 break;
             default:
@@ -125,6 +136,8 @@ void game_loop(void) {
         switch (currentGameState) {
             case GAME_STATE_MAP:
                 //
+                display_map();
+                handle_map_input();
                 break;
             case GAME_STATE_INVENTORY:
                 break;
