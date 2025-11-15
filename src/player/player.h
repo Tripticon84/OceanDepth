@@ -16,10 +16,22 @@ typedef struct {
     int caseIndex;
 } Diver;
 
+/**
+ * Initialise un joueur (Diver) avec les valeurs par défaut.
+ * @param player Pointeur vers la structure Diver à initialiser.
+ */
 void init_player(Diver* player);
 
+/**
+ * Libère les ressources associées au joueur (Diver).
+ * @param player Pointeur vers la structure Diver à nettoyer.
+ */
 void clean_player(Diver* player);
 
+/**
+ * Affiche les informations du joueur (Diver) sur la sortie standard.
+ * @param player Pointeur vers la structure Diver à afficher.
+ */
 void print_player(Diver* player);
 
 #endif //OCEANDEPTH_PLAYER_H

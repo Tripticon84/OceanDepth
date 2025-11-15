@@ -62,6 +62,12 @@ void init_inventory(Inventory* inv);
  */
 void init_starting_inventory(Inventory* inv);
 
+/**
+ * @brief Ouvre l'inventaire sous-marin avec gestion des objets.
+ * @param inv Pointeur vers l'inventaire à afficher
+ */
+void display_inventory(Inventory* inv);
+
 void clean_inventory(Inventory* inv);
 
 void add_item(Inventory* inv, Item newItem);

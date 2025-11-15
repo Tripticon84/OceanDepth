@@ -101,7 +101,9 @@
 
 ## Captures d'écran
 
-[Insérer vos captures montrant le jeu en action, pour éviter un malheureux "effet démo" le jour de la soutenance]
+### Map
+
+![Map](docs/data/img/map.png)
 
 ## Difficultés rencontrées
 

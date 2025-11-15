@@ -23,12 +23,6 @@ int start_new_game(void);
 void display_skills(void);
 
 /**
- * @brief Ouvre l'inventaire sous-marin avec gestion des objets.
- * @param inv Pointeur vers l'inventaire à afficher
- */
-void display_inventory(Inventory* inv);
-
-/**
  * @brief Menu des options (langue, effets, sauvegarde auto, etc.).
  */
 void display_options(void);

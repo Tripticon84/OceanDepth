@@ -27,12 +27,23 @@ extern Diver* player;
 extern int depth;
 extern Map gameMap;
 
+/**
+ * Initialise le jeu, les variables globales et les ressources nécessaires.
+ */
 void init_game(void);
 
+/**
+ * Boucle principale du menu, gère l'affichage et les interactions utilisateur dans le menu.
+ */
 void menu_loop(void);
 
+/**
+ * Boucle principale du jeu, gère la progression et les événements du jeu.
+ */
 void game_loop(void);
 
+/**
+ * Boucle de combat, gère les interactions et la logique lors des combats.
+ */
 void combat_loop(void);
-
 #endif //OCEANDEPTH_GAME_H

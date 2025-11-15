@@ -81,8 +81,8 @@ void init_next_zone() {
     Zone* newZone = &gameMap.zones[gameMap.numZones];
     newZone->depth = newDepth;
 
-    // Vérification shop tous les 250m
-    bool needShop = newDepth % 250 == 0 ? true : false;
+    // Vérification shop tous les 200m
+    bool needShop = newDepth % 200 == 0 ? true : false;
 
     // Types de zones disponibles (exclure SURFACE et SHOP)
     int numAvailableTypes = 4;
