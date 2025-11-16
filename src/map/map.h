@@ -4,43 +4,62 @@
 #include <stdbool.h>
 #include "../player/player.h"
 
+/**
+ * @enum ZoneKind
+ * Types de zones possibles sur la carte.
+ */
 typedef enum {
-    SURFACE,
-    REEF,
-    WRECK,
-    ALGAE_FOREST,
-    CAVE,
-    SHOP,
-    EMPTY
+    SURFACE,        /**< Surface de l'océan */
+    REEF,           /**< Récif corallien */
+    WRECK,          /**< Épave */
+    ALGAE_FOREST,   /**< Forêt d'algues */
+    CAVE,           /**< Grotte sous-marine */
+    SHOP,           /**< Boutique */
+    EMPTY           /**< Zone vide */
 } ZoneKind;
 
+/**
+ * @struct ZoneType
+ * Définit un type de zone avec son icône, son nom et sa description.
+ */
 typedef struct {
-    char icon[10];
-    char name[50];
-    char description[50];
+    char icon[10];          /**< Icône représentant la zone */
+    char name[50];          /**< Nom du type de zone */
+    char description[50];   /**< Description du type de zone */
 } ZoneType;
 
+/**
+ * @struct CaseZone
+ * Représente une case individuelle dans une zone, avec ses propriétés.
+ */
 typedef struct {
-    char icon[10];
-    char name[50];
-    ZoneKind type;
-    char description[50];
-    short minMonsterCount;
-    short maxMonsterCount;
-    bool isDiscovered;
-    bool hasBeenDefeated;
+    char icon[10];              /**< Icône de la case */
+    char name[50];              /**< Nom de la case */
+    ZoneKind type;              /**< Type de la case (ZoneKind) */
+    char description[50];       /**< Description de la case */
+    short minMonsterCount;      /**< Nombre minimum de monstres */
+    short maxMonsterCount;      /**< Nombre maximum de monstres */
+    bool isDiscovered;          /**< Indique si la case a été découverte */
+    bool hasBeenDefeated;       /**< Indique si la case a été vaincue */
 } CaseZone;
 
+/**
+ * @struct Zone
+ * Représente une zone du jeu, composée de plusieurs cases et d'une profondeur.
+ */
 typedef struct {
-    int depth;
-    CaseZone cases[4];
+    int depth;              /**< Profondeur de la zone (en mètres) */
+    CaseZone cases[4];      /**< Tableau de cases composant la zone */
 } Zone;
 
+/**
+ * @struct Map
+ * Structure principale représentant la carte du jeu.
+ */
 typedef struct {
-    Zone* zones;
-    int numZones;
+    Zone* zones;        /**< Tableau dynamique de zones */
+    int numZones;       /**< Nombre total de zones */
 } Map;
-
 /**
  * Initialise la première zone du jeu.
  */
@@ -74,10 +93,14 @@ bool can_access_zone(CaseZone* caseZone);
  */
 bool is_case_zone_visible(int zoneIndex, int caseIndex);
 
-// Affiche la carte (zone actuelle et sélection)
+/**
+ * Affiche la carte du jeu, incluant la zone actuelle et la sélection du joueur.
+ */
 void display_map(void);
 
-// Gère les entrées utilisateur liées à la carte (ZQSD ou flèches, E pour entrer)
+/**
+ * Gère les entrées utilisateur liées à la carte.
+ */
 void handle_map_input(void);
 
 /**
@@ -88,11 +111,8 @@ void handle_map_input(void);
 const char* get_zone_type_name(ZoneKind type);
 
 /**
- * Gère les entrées utilisateur liées à la carte.
+ * Retourne la profondeur (en mètres) de la zone actuellement sélectionnée dans l'interface utilisateur de la carte.
+ * @return Profondeur de la zone sélectionnée (int, en mètres).
  */
-void handle_map_input();
-
-// Retourne la profondeur (m) de la zone actuellement sélectionnée dans l'UI carte
 int map_get_selected_depth(void);
-
 #endif //OCEANDEPTH_MAP_H

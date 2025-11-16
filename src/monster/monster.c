@@ -43,7 +43,7 @@ const char* get_random_monster_name(int type) {
         [MONSTER_TYPE_GIANT_CRAB] = {"Crabe Geant", "Pinces de Fer", "Le Colosse des Sables", "Gardien des Recifs", "Le Titan Cotier"}
     };
 
-    int index = random(0, 4);
+    int index = random_num(0, 4);
     return names[type][index];
 }
 
@@ -51,7 +51,7 @@ void init_monster(Monster* monster, int type, int id) {
     strcpy(monster->icon, MONSTER_TYPES[type].icon);
     monster->id = id;
     strcpy(monster->name, get_random_monster_name(type));
-    monster->health = random(MONSTER_TYPES[type].minHP, MONSTER_TYPES[type].maxHP);
+    monster->health = random_num(MONSTER_TYPES[type].minHP, MONSTER_TYPES[type].maxHP);
     monster->maxHealth = monster->health;
     monster->minAttack = MONSTER_TYPES[type].minAttack;
     monster->maxAttack = MONSTER_TYPES[type].maxAttack;
@@ -88,13 +88,13 @@ void generate_monsters_in_zone(Monster* list[], int depth, int* monstersCount) {
     // Détermine la difficulté de la zone en fonction de la profondeur
 
     // double difficulty = floor(depth / 30);
-    // int count = random(1, 2 + floor(difficulty / 5));
+    // int count = random_num(1, 2 + floor(difficulty / 5));
     int count = 0;
 
     if (depth <= 150) count = 1;
-    else if (depth <= 200) count = random(1, 2);
-    else if (depth <= 500) count = random(2, 3);
-    else if (depth > 501) count = random(3, 4);
+    else if (depth <= 200) count = random_num(1, 2);
+    else if (depth <= 500) count = random_num(2, 3);
+    else if (depth > 501) count = random_num(3, 4);
 
     if (count < 1) count = 1;
     if (count > 4) count = 4;
@@ -105,18 +105,18 @@ void generate_monsters_in_zone(Monster* list[], int depth, int* monstersCount) {
     for (int i = 0; i < maxCount; ++i) {
         int type;
         if (depth <= 50) {
-            type = random(1, 3);
+            type = random_num(1, 3);
             // depth < 50 : Kraken et Crabe géant exclus
         } else if (depth <= 150) {
             // depth entre 50 et 150 : Kraken exclu
-            type = random(1, 4);
+            type = random_num(1, 4);
         } else {
             // depth > 150 : Kraken possible
             if (kraken_present) {
                 // Si un kraken est déjà présent, on ne peut plus en recréer
-                type = random(1, 4);
+                type = random_num(1, 4);
             } else {
-                type = random(0, 4);
+                type = random_num(0, 4);
                 if (type == MONSTER_TYPE_KRAKEN) {
                     kraken_present = 1;
                     if (maxCount > 2) maxCount = 2; // limiter le nombre total si un kraken apparaît

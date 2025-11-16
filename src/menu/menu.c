@@ -46,18 +46,6 @@ int start_new_game(void) {
 }
 
 
-void display_options(void) {
-    printf("╔══════════════════════════════════════════════════════════════════╗\n");
-    printf("║                          ⚙️ OPTIONS                               ║\n");
-    printf("╠══════════════════════════════════════════════════════════════════╣\n");
-    printf("║   🌐  [1] Changer la langue                                      ║\n");
-    printf("║   🔊  [2] Activer/Désactiver les effets sonores                  ║\n");
-    printf("║   💾  [3] Activer/Désactiver la sauvegarde automatique           ║\n");
-    printf("║   🎨  [4] Modifier le thème visuel                               ║\n");
-    printf("║   🔙  [5] Retour au menu principal                               ║\n");
-    printf("╚══════════════════════════════════════════════════════════════════╝\n");
-    printf("> ");
-}
 
 void handle_menu_input(void) {
     char input = getchar();

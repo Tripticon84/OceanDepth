@@ -24,13 +24,21 @@ void init_game(void) {
     player = malloc(sizeof(Diver));
     inventory = malloc(sizeof(Inventory));
     monstersCount = malloc(sizeof(int));
+    monsters[0] = malloc(sizeof(Monster) * 4);
     for (int i = 0; i < 4; ++i) {
-        monsters[i] = malloc(sizeof(Monster));
+        monsters[i] = monsters[0] + i;
     }
     gameMap.zones = malloc(sizeof(Zone));
-    if (!gameMap.zones) {
-        fprintf(stderr, "Erreur d'allocation de la carte\n");
-        return;
+
+    if (!gameMap.zones || !player || !inventory || !monstersCount || !monsters[0]) {
+        fprintf(stderr, "Erreur d'allocation initiale\n");
+        // Libérer ce qui a pu être alloué avant de quitter
+        free(player);
+        free(inventory);
+        free(monstersCount);
+        free(monsters[0]);
+        free(gameMap.zones);
+        exit(EXIT_FAILURE);
     }
 
     init_player(player);
@@ -81,6 +89,7 @@ void menu_loop(void) {
                 break;
         }
     }
+    cleanup_game();
     printf("Quitter le jeu. À bientôt !\n");
 }
 
@@ -143,7 +152,7 @@ void game_loop(void) {
                 break;
             case GAME_STATE_REWARD:
                 // TODO : Afficher et générer les récompenses
-                int rarity = random(0, 5);
+                int rarity = random_num(0, 5);
                 Item newItem = generate_random_item(rarity);
                 display_reward_item(&newItem);
                 clear_input_buffer();
@@ -208,4 +217,12 @@ void combat_loop(void) {
             return;
         }
     }
+}
+
+void cleanup_game(void) {
+    free(player);
+    free(monsters[0]);
+    free(monstersCount);
+    free(gameMap.zones);
+    free(inventory);
 }

@@ -1,11 +1,14 @@
 #include "utils.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 #ifdef _WIN32
 #include <windows.h>
 #else
 #include <unistd.h>
+#include <sys/ioctl.h>
 #endif
 
 
@@ -145,6 +148,6 @@ void sleep_ms(int milliseconds) {
 #endif
 }
 
-int random(int min, int max) {
+int random_num(int min, int max) {
     return rand() % (max - min + 1) + min;
 }

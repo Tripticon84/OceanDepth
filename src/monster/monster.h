@@ -31,30 +31,41 @@ typedef struct {
 
 #define NUMBER_OF_MONSTER_TYPES 5
 
+/**
+ * @brief Types de monstres disponibles dans le jeu.
+ */
 typedef enum {
-    MONSTER_TYPE_KRAKEN,
-    MONSTER_TYPE_SHARK,
-    MONSTER_TYPE_MEDUSA,
-    MONSTER_TYPE_SWORD_FISH,
-    MONSTER_TYPE_GIANT_CRAB
+    MONSTER_TYPE_KRAKEN,       /**< Kraken géant, puissant et dangereux. */
+    MONSTER_TYPE_SHARK,        /**< Requin rapide et agressif. */
+    MONSTER_TYPE_MEDUSA,       /**< Méduse, peut paralyser. */
+    MONSTER_TYPE_SWORD_FISH,   /**< Espadon, attaque perçante. */
+    MONSTER_TYPE_GIANT_CRAB    /**< Crabe géant, défense élevée. */
 } MonsterKind;
 
+/**
+ * @brief Tableau constant contenant les caractéristiques de chaque type de monstre.
+ */
 extern const MonsterType MONSTER_TYPES[NUMBER_OF_MONSTER_TYPES];
 
+/**
+ * @brief Structure représentant un monstre individuel.
+ *
+ * Contient toutes les informations nécessaires pour gérer un monstre en jeu,
+ * telles que l'identifiant, l'icône, le nom, les statistiques et l'état de vie.
+ */
 typedef struct {
-    int id;
-    char icon[5];
-    char name[100];
-    int health;
-    int maxHealth;
-    int minAttack;
-    int maxAttack;
-    int defense;
-    int speed;
-    SpecialEffect specialEffect;
-    bool isAlive;
+    int id;                         /**< Identifiant unique du monstre. */
+    char icon[5];                   /**< Icône du monstre (chaîne courte). */
+    char name[100];                 /**< Nom du monstre. */
+    int health;                     /**< Santé actuelle. */
+    int maxHealth;                  /**< Santé maximale. */
+    int minAttack;                  /**< Valeur minimale d'attaque. */
+    int maxAttack;                  /**< Valeur maximale d'attaque. */
+    int defense;                    /**< Défense du monstre. */
+    int speed;                      /**< Vitesse du monstre. */
+    SpecialEffect specialEffect;    /**< Effet spécial associé. */
+    bool isAlive;                   /**< Indique si le monstre est vivant. */
 } Monster;
-
 /**
  * @brief Obtient le nom d'un effet spécial de monstre.
  *

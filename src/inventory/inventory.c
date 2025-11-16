@@ -133,8 +133,7 @@ char* get_item_rarity(enum rarity r) {
 }
 
 Item generate_random_item(int rarity) {
-    Item item;
-    memset(&item, 0, sizeof(Item));
+    Item item = {0};
 
     // Limiter la rareté aux valeurs valides
     if (rarity < 0) rarity = 0;
@@ -144,27 +143,27 @@ Item generate_random_item(int rarity) {
     item.quantity = 1;
 
     // Déterminer le type d'objet aléatoirement
-    int itemTypeRoll = random(0, 100);
+    int itemTypeRoll = random_num(0, 100);
 
     if (itemTypeRoll < 30) {
         // 30% chance : Consommable
         item.type.type = CONSUMABLE;
-        int consumableType = random(0, 3);
+        int consumableType = random_num(0, 3);
         switch (consumableType) {
             case 0:
                 strcpy(item.name, "Capsule d'oxygène");
                 strcpy(item.effect, "boost_oxygene");
-                item.quantity = random(1, 3);
+                item.quantity = random_num(1, 3);
                 break;
             case 1:
                 strcpy(item.name, "Trousse de soin");
                 strcpy(item.effect, "soin");
-                item.quantity = random(1, 2);
+                item.quantity = random_num(1, 2);
                 break;
             case 2:
                 strcpy(item.name, "Stimulant marin");
                 strcpy(item.effect, "boost_vitesse");
-                item.quantity = random(1, 2);
+                item.quantity = random_num(1, 2);
                 break;
             case 3:
                 strcpy(item.name, "Antidote");
@@ -178,7 +177,7 @@ Item generate_random_item(int rarity) {
         item.oxygenCost = 0;
     } else if (itemTypeRoll < 60) {
         // 30% chance : Arme
-        int weaponType = random(0, 2);
+        int weaponType = random_num(0, 2);
         switch (weaponType) {
             case 0:
                 item.type.type = WEAPON_CONTACT;
@@ -218,18 +217,18 @@ Item generate_random_item(int rarity) {
         int baseMaxAttack[] = {18, 25, 40, 55, 70, 90};
         int variance = 3 + (rarity * 2);
 
-        item.minAttack = baseMinAttack[rarity] + random(-variance, variance);
-        item.maxAttack = baseMaxAttack[rarity] + random(-variance, variance);
+        item.minAttack = baseMinAttack[rarity] + random_num(-variance, variance);
+        item.maxAttack = baseMaxAttack[rarity] + random_num(-variance, variance);
         if (item.minAttack < 1) item.minAttack = 1;
         if (item.maxAttack <= item.minAttack) item.maxAttack = item.minAttack + 1;
 
         // Coût en oxygène selon la rareté (plus rare = moins de coût)
-        item.oxygenCost = random(2, 6 - rarity);
+        item.oxygenCost = random_num(2, 6 - rarity);
         if (item.oxygenCost < 1) item.oxygenCost = 1;
 
         // Effets spéciaux pour les armes rares
         if (rarity >= RARE) {
-            int effectRoll = random(0, 3);
+            int effectRoll = random_num(0, 3);
             switch (effectRoll) {
                 case 0:
                     strcpy(item.effect, "ignore_defense");
@@ -251,7 +250,7 @@ Item generate_random_item(int rarity) {
         item.defenseBonus = 0;
     } else {
         // 40% chance : Armure
-        int armorType = random(0, 3);
+        int armorType = random_num(0, 3);
         switch (armorType) {
             case 0:
                 item.type.type = HELMET;
@@ -281,7 +280,7 @@ Item generate_random_item(int rarity) {
         // Bonus de défense selon la rareté
         int baseDefense[] = {3, 7, 12, 18, 25, 35};
         int variance = 2 + rarity;
-        item.defenseBonus = baseDefense[rarity] + random(-variance, variance);
+        item.defenseBonus = baseDefense[rarity] + random_num(-variance, variance);
         if (item.defenseBonus < 1) item.defenseBonus = 1;
 
         item.minAttack = 0;
@@ -290,7 +289,7 @@ Item generate_random_item(int rarity) {
 
         // Effets spéciaux pour les armures rares
         if (rarity >= RARE) {
-            int effectRoll = random(0, 2);
+            int effectRoll = random_num(0, 2);
             switch (effectRoll) {
                 case 0:
                     strcpy(item.effect, "boost_defense");
@@ -357,7 +356,7 @@ void display_inventory(Inventory* inv) {
     printf("║                                                                  ║\n");
     if (inv && inv->nb_objets > 0) {
         for (int i = 0; i < inv->nb_objets && i < 8; i++) {
-            char itemLine[70];
+            char itemLine[121];
             snprintf(
                 itemLine, sizeof(itemLine), "  [%d] %s (x%d)",
                 i + 1, inv->objets[i].name, inv->objets[i].quantity);

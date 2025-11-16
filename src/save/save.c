@@ -1,14 +1,11 @@
 #include "save.h"
 #include <stdio.h>
-#include <windows.h>
+#include <stdlib.h>
 
 #include "../display_combat/display_combat.h"
 #include "../game/game.h"
 #include "../utils/utils.h"
 
-int create_save(int slot) {
-    Diver tempPlayer;
-}
 
 int save_game(int slot) {
     char filePath[50];
@@ -37,12 +34,16 @@ int load_game(int slot) {
     fread(player, sizeof(Diver), 1, file);
     fread(&depth, sizeof(int), 1, file);
     fread(&gameMap.numZones, sizeof(int), 1, file);
-    gameMap.zones = realloc(gameMap.zones, sizeof(Zone) * (gameMap.numZones + 1));
+    if (gameMap.zones != NULL) {
+        free(gameMap.zones);
+    }
+    gameMap.zones = malloc(sizeof(Zone) * (gameMap.numZones + 1));
     if (gameMap.zones == NULL) {
+        free(player);
+        player = NULL;
         fclose(file);
         return -2;
-    }
-    // Charger numZones + 1 zones
+    } // Charger numZones + 1 zones
     fread(gameMap.zones, sizeof(Zone), gameMap.numZones + 1, file);
     fclose(file);
     return 0;
@@ -79,12 +80,6 @@ void get_saves_infos(int slot) {
     fread(&tempMap.numZones, sizeof(int), 1, file);
 
     tempMap.zones = malloc(sizeof(Zone) * (tempMap.numZones + 1));
-    if (tempMap.zones == NULL) {
-        fclose(file);
-        printf("Erreur de mémoire lors de la lecture de la sauvegarde %d.\n", slot);
-        free(tempMap.zones);
-        return;
-    }
     fread(tempMap.zones, sizeof(Zone), tempMap.numZones + 1, file);
 
     printf("Slot %d :", slot);
@@ -114,6 +109,7 @@ void get_saves_infos(int slot) {
     free(tempMap.zones);
     fclose(file);
 }
+
 
 void display_saves_menu(void) {
     printf("╔══════════════════════════════════════════════════════════════════╗\n");

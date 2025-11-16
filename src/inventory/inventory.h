@@ -68,20 +68,58 @@ void init_starting_inventory(Inventory* inv);
  */
 void display_inventory(Inventory* inv);
 
+/**
+ * @brief Nettoie l'inventaire en réinitialisant tous les objets et compteurs.
+ * @param inv Pointeur vers l'inventaire à nettoyer
+ */
 void clean_inventory(Inventory* inv);
 
+/**
+ * @brief Ajoute un nouvel objet à l'inventaire.
+ * @param inv Pointeur vers l'inventaire
+ * @param newItem Objet à ajouter
+ */
 void add_item(Inventory* inv, Item newItem);
 
+/**
+ * @brief Génère un objet aléatoire selon la rareté spécifiée.
+ * @param rarity Niveau de rareté souhaité
+ * @return Un objet généré aléatoirement
+ */
 Item generate_random_item(int rarity);
 
+/**
+ * @brief Utilise un objet de l'inventaire à l'index donné.
+ * @param inv Pointeur vers l'inventaire
+ * @param index Index de l'objet à utiliser
+ */
 void use_item(Inventory* inv, int index);
 
+/**
+ * @brief Équipe une arme depuis l'inventaire à l'index donné.
+ * @param inv Pointeur vers l'inventaire
+ * @param index Index de l'arme à équiper
+ */
 void equip_weapon(Inventory* inv, int index);
 
+/**
+ * @brief Équipe une armure depuis l'inventaire à l'index donné.
+ * @param inv Pointeur vers l'inventaire
+ * @param index Index de l'armure à équiper
+ */
 void equip_armor(Inventory* inv, int index);
 
+/**
+ * @brief Retourne une chaîne représentant le type d'objet.
+ * @param t Type d'objet
+ * @return Chaîne de caractères du type
+ */
 char* get_item_type(enum type t);
 
+/**
+ * @brief Retourne une chaîne représentant la rareté d'un objet.
+ * @param r Rareté de l'objet
+ * @return Chaîne de caractères de la rareté
+ */
 char* get_item_rarity(enum rarity r);
-
 #endif //OCEANDEPTH_INVENTORY_H
