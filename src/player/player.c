@@ -10,7 +10,7 @@ void init_player(Diver* player) {
     player->maxOxygen = 100;
     player->oxygen = player->maxOxygen;
     player->maxTiredness = 5;
-    player->tiredness = 0;
+    player->tiredness = 1;
     player->pearls = 10;
     init_starting_inventory(&player->inventory);
     player->zoneIndex = 0;

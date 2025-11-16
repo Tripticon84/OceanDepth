@@ -370,7 +370,7 @@ void display_inventory(Inventory* inv) {
     printf("║                                                                  ║\n");
     printf("╠══════════════════════════════════════════════════════════════════╣\n");
     printf("║  💡 Utilisez les numéros pour équiper ou consommer des objets    ║\n");
-    printf("║  🔙 Appuyez sur [0] pour retourner au menu principal             ║\n");
+    printf("║  🔙 Appuyez sur [x] pour retourner au menu principal             ║\n");
     printf("╚══════════════════════════════════════════════════════════════════╝\n");
     printf("> ");
 }

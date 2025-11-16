@@ -129,8 +129,8 @@ void display_saves_menu(void) {
     }
 
     printf("║ ");
-    printf("[R] Retour au menu principal");
-    print_chars(" ", INNER_WIDTH - 41);
+    printf("[R] Retour au menu principal   [X] Retour au jeu");
+    print_chars(" ", INNER_WIDTH - 61);
     printf("║\n");
 
     printf("║                                                                  ║\n");
@@ -159,6 +159,11 @@ void handle_load_save_menu_input(void) {
             }
             break;
         }
+        case 'X':
+        case 'x':
+            // Retour au jeu
+            currentGameState = GAME_STATE_MAP;
+            break;
         case 'R':
         case 'r':
         case 'q':
@@ -168,7 +173,6 @@ void handle_load_save_menu_input(void) {
             break;
         default:
             printf("Entrée invalide. Veuillez réessayer.");
-            // sleep_ms(1000);
             break;
     }
 }
@@ -192,31 +196,27 @@ void handle_create_save_menu_input(void) {
                 }
             }
 
-            // Sauvegarder la partie dans le slot choisi
-            int depth = 0;
-            const char* zone = "Corail Bleu";
-
             if (save_game(slot) == 0) {
-                // Succès de la sauvegarde
                 printf("Sauvegarde %d créée avec succès.\n", slot);
                 sleep_ms(1000);
             } else {
-                // Échec de la sauvegarde
                 printf("Erreur lors de la création de la sauvegarde %d.\n", slot);
                 sleep_ms(1000);
             }
             break;
         }
+        case 'X':
+        case 'x':
+            currentGameState = GAME_STATE_MAP;
+            break;
         case 'q':
         case 'Q':
         case 'r':
         case 'R':
-            // Retour au menu principal
             currentGameState = GAME_STATE_MENU;
             break;
         default:
             printf("Entrée invalide. Veuillez réessayer.");
-            // sleep_ms(1000);
             break;
     }
 }

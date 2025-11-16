@@ -1,12 +1,13 @@
 #include "game.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "../combat/combat.h"
 #include "../display_combat/display_combat.h"
-#include "../display_map/display_map.h"
 #include "../menu/menu.h"
 #include "../save/save.h"
 #include "../utils/utils.h"
+#include "../shop.h"
 
 int running = 1;
 GameState currentGameState = GAME_STATE_MENU;
@@ -14,25 +15,26 @@ GameState currentGameState = GAME_STATE_MENU;
 Monster* monsters[4];
 int* monstersCount = 0;
 Diver* player;
+Inventory* inventory;
 int depth = 600;
 Map gameMap;
 
 void init_game(void) {
     player = malloc(sizeof(Diver));
+    inventory = malloc(sizeof(Inventory));
     monstersCount = malloc(sizeof(int));
     for (int i = 0; i < 4; ++i) {
         monsters[i] = malloc(sizeof(Monster));
     }
     gameMap.zones = malloc(sizeof(Zone));
     if (!gameMap.zones) {
-        fprintf(stderr, "Erreur d\'allocation de la carte\n");
+        fprintf(stderr, "Erreur d'allocation de la carte\n");
         return;
     }
 
     init_player(player);
+    init_starting_inventory(inventory);
     first_init_zone();
-    init_next_zone();
-    init_next_zone();
     init_next_zone();
 }
 
@@ -42,25 +44,16 @@ void menu_loop(void) {
     while (running) {
         check_terminal_size();
         if (previousGameState != currentGameState) {
-            // Menu principal -> Création de Sauvegarde
             if (previousGameState == GAME_STATE_MENU && currentGameState == GAME_STATE_SAVE_MENU_CREATE) {
                 clear_terminal();
             }
-            // Menu principal -> Liste des Sauvegardes
             if (previousGameState == GAME_STATE_MENU && currentGameState == GAME_STATE_SAVE_MENU_LOAD) {
                 clear_terminal();
             }
-            // Menu Sauvegardes -> Jeu
             if (previousGameState == GAME_STATE_SAVE_MENU_LOAD && currentGameState == GAME_STATE_PLAYING) {
-                // Menu Save -> Jeu
-                // Initialisation du jeu
                 clear_terminal();
             }
-            // Jeu -> Menu principal
             if (previousGameState == GAME_STATE_PLAYING && currentGameState == GAME_STATE_MENU) {
-                // Sortie du jeu
-                // clear_terminal();
-                // display_main_menu();
             }
             previousGameState = currentGameState;
         }
@@ -71,12 +64,10 @@ void menu_loop(void) {
                 handle_menu_input();
                 break;
             case GAME_STATE_SAVE_MENU_CREATE:
-                // Créer une nouvelle sauvegarde
                 display_saves_menu();
                 handle_create_save_menu_input();
                 break;
             case GAME_STATE_SAVE_MENU_LOAD:
-                // Charger une sauvegarde existante
                 display_saves_menu();
                 handle_load_save_menu_input();
                 break;
@@ -96,66 +87,62 @@ void game_loop(void) {
 
     while (running) {
         check_terminal_size();
-        // Map -> Menu principal
-        if (previousGameState == GAME_STATE_MAP && currentGameState == GAME_STATE_MENU) {
+        if (previousGameState != currentGameState) {
             clear_terminal();
-        }
-        // Map -> Boutique
-        if (previousGameState == GAME_STATE_MAP && currentGameState == GAME_STATE_SHOP) {
-            clear_terminal();
-        }
-        // Boutique -> Map
-        if (previousGameState == GAME_STATE_SHOP && currentGameState == GAME_STATE_MAP) {
-            clear_terminal();
-        }
-        // Map -> Combat
-        if (previousGameState == GAME_STATE_MAP && currentGameState == GAME_STATE_COMBAT) {
-            clear_terminal();
-        }
-        // Combat -> Récompense
-        if (previousGameState == GAME_STATE_COMBAT && currentGameState == GAME_STATE_REWARD) {
-            clear_terminal();
-        }
-        // Récompense -> Map
-        if (previousGameState == GAME_STATE_REWARD && currentGameState == GAME_STATE_MAP) {
-            clear_terminal();
-        }
-        // Combat -> Game Over
-        if (previousGameState == GAME_STATE_COMBAT && currentGameState == GAME_STATE_GAME_OVER) {
-            clear_terminal();
-        }
-        // Game Over -> Menu principal
-        if (previousGameState == GAME_STATE_GAME_OVER && currentGameState == GAME_STATE_MENU) {
-            clear_terminal();
-            return;
+            previousGameState = currentGameState;
         }
 
-        previousGameState = currentGameState;
         clear_terminal();
-
         switch (currentGameState) {
             case GAME_STATE_MAP:
-                //
                 display_map();
                 handle_map_input();
                 break;
             case GAME_STATE_INVENTORY:
+                display_inventory(&player->inventory);
+                getchar();
+                clear_input_buffer();
+                currentGameState = GAME_STATE_MAP;
                 break;
-            case GAME_STATE_SHOP:
-                //
+            case GAME_STATE_SHOP: {
+                setup_shop(player, inventory);
+                int depthMeters = map_get_selected_depth();
+                showShop(depthMeters);
+                currentGameState = GAME_STATE_MAP;
+                break;
+            }
+            case GAME_STATE_SAVE_MENU_CREATE:
+                display_saves_menu();
+                handle_create_save_menu_input();
+                // À la sortie du menu de sauvegarde, revenir à la carte sauf si retour menu demandé
+                if (currentGameState == GAME_STATE_MENU) {
+                    return;
+                }
+                if (currentGameState == GAME_STATE_SAVE_MENU_CREATE) {
+                    currentGameState = GAME_STATE_MAP;
+                }
+                break;
+            case GAME_STATE_SAVE_MENU_LOAD:
+                display_saves_menu();
+                handle_load_save_menu_input();
+                if (currentGameState == GAME_STATE_MENU) {
+                    return;
+                }
+                if (currentGameState == GAME_STATE_SAVE_MENU_LOAD) {
+                    currentGameState = GAME_STATE_MAP;
+                }
                 break;
             case GAME_STATE_COMBAT:
-                //
                 clear_terminal();
                 combat_loop();
                 break;
             case GAME_STATE_REWARD:
                 // TODO : Afficher et générer les récompenses
+                currentGameState = GAME_STATE_MAP;
                 break;
             case GAME_STATE_GAME_OVER:
-                //
                 currentGameState = GAME_STATE_MENU;
-                break;
+                return;
             default:
                 break;
         }
@@ -173,11 +160,8 @@ void combat_loop(void) {
     sleep_ms(1000);
     SpecialEffect special_effect = MONSTER_EFFECT_NONE;
 
-
     while (inCombat) {
         clear_terminal();
-
-        // Boucle du joueur
         finishTurn = false;
         remainingAttacks = max_attacks_per_turn();
         increase_fatigue();
@@ -186,12 +170,9 @@ void combat_loop(void) {
             display_combat_interface(&remainingAttacks);
             handle_combat_input(&remainingAttacks, &finishTurn);
         }
-
-        // Boucle des créatures
         for (int i = 0; i < *monstersCount; ++i) {
             if (monsters[i]->isAlive) {
                 monster_attacks_player(monsters[i], special_effect);
-
                 printf("%s attaque...\n", monsters[i]->name);
                 sleep_ms(2000);
                 clear_terminal();
@@ -199,10 +180,7 @@ void combat_loop(void) {
                 sleep_ms(2000);
             }
         }
-
         if (player->oxygen <= 0) player->health -= 5;
-
-        // Vérification de la fin du combat
         if (is_any_monster_alive() == false) {
             inCombat = false;
             printf("Vous avez vaincu toutes les créatures !\n");

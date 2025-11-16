@@ -20,12 +20,18 @@ void display_map() {
     printf("║  Y↓ ┌────────────┬────────────┬────────────┬────────────┬────────────┐       ║\n");
 
     // Afficher chaque zone (ligne)
-    for (int zoneIdx = 0; zoneIdx <= gameMap.numZones; zoneIdx++) {
-        Zone* zone = &gameMap.zones[zoneIdx];
+    for (int zoneIdx = 0; zoneIdx <= gameMap.numZones + 1; zoneIdx++) {
+        bool isUnknownRow = (zoneIdx == gameMap.numZones + 1);
+        Zone* zone = (!isUnknownRow && zoneIdx <= gameMap.numZones) ? &gameMap.zones[zoneIdx] : NULL;
+        int depthVal = (zone ? zone->depth : gameMap.zones[gameMap.numZones].depth + 50);
 
         // Ligne 1 : Icônes et nom de zone
         printf("║     │");
         for (int caseIdx = 0; caseIdx < 4; caseIdx++) {
+            if (isUnknownRow) {
+                printf("     ❓     │");
+                continue;
+            }
             CaseZone* caseZone = &zone->cases[caseIdx];
             if (is_case_zone_visible(zoneIdx, caseIdx)) {
                 if (player->zoneIndex == zoneIdx && player->caseIndex == caseIdx)
@@ -45,6 +51,10 @@ void display_map() {
         printf("%d │", zoneIdx + 1);
 
         for (int caseIdx = 0; caseIdx < 4; caseIdx++) {
+            if (isUnknownRow) {
+                printf("  Inconnu   │");
+                continue;
+            }
             CaseZone* caseZone = &zone->cases[caseIdx];
             if (is_case_zone_visible(zoneIdx, caseIdx)) {
                 print_centered(caseZone->name, 12);
@@ -56,19 +66,26 @@ void display_map() {
         printf(" ZONE %d", zoneIdx + 1);
         print_chars(" ", 6 - calculate_number_width(zoneIdx + 1));
 
-        printf("│ %dm", -zone->depth);
-        print_chars(" ", 5 - calculate_number_width(-zone->depth));
+        printf("│ %dm", -depthVal);
+        print_chars(" ", 5 - calculate_number_width(-depthVal));
         printf("║\n");
 
         // Ligne 3 : Informations (ennemis, type)
         printf("║     │");
         for (int caseIdx = 0; caseIdx < 4; caseIdx++) {
+            if (isUnknownRow) {
+                printf("            │");
+                continue;
+            }
             CaseZone* caseZone = &zone->cases[caseIdx];
             if (is_case_zone_visible(zoneIdx, caseIdx)) {
                 if (caseZone->type == SHOP) {
                     printf("   [SHOP]   │");
                 } else if (caseZone->type == CAVE) {
                     printf("   [SAUF]   │");
+                } else if (caseZone->type == EMPTY) {
+                    // Ne pas réimprimer l'icône ❌ ici pour éviter le doublon, laisser vide
+                    printf("            │");
                 } else if (caseZone->hasBeenDefeated == true) {
                     printf("   [BATTU]  │");
                 } else if (caseZone->maxMonsterCount > 0) {
@@ -87,7 +104,7 @@ void display_map() {
         printf("            │       ║\n");
 
         // Séparateur ou fin
-        if (zoneIdx < gameMap.numZones) {
+        if (!isUnknownRow) {
             printf("║     ├────────────┼────────────┼────────────┼────────────┼────────────┤       ║\n");
         } else {
             printf("║     └────────────┴────────────┴────────────┴────────────┴────────────┘       ║\n");
@@ -95,7 +112,16 @@ void display_map() {
     }
 
     printf("║                                                                              ║\n");
+    // Barre Santé/Oxygène centrée
+    printf("║");
+    char statusLine[84];
+    snprintf(statusLine, sizeof(statusLine), "💧 Santé: %d/%d  💨 Oxygène: %d/%d  💎 Perles: %d",
+             player->health, player->maxHealth, player->oxygen, player->maxOxygen, player->pearls);
+    print_centered(statusLine, 84);
+    printf("║\n");
+
     printf("╠══════════════════════════════════════════════════════════════════════════════╣\n");
+
     printf("║                                                                              ║\n");
 
     // Position actuelle du joueur
@@ -120,6 +146,10 @@ void display_map() {
 
     // Menu // TODO : ACTION DYNAMIQUE en fonction de la case
     printf("╠══════════════════════════════════════════════════════════════════════════════╣\n");
-    printf("║  1-Se déplacer  2-Explorer zone  3-Retour surface  4-Carte détaillée         ║\n");
+    if (player->zoneIndex == 0 && player->caseIndex == 0) {
+        printf("║  E-Explorer  R-Retour surface  I-Inventaire  S-Sauvegarder  X-Retour menu    ║\n");
+    } else {
+        printf("║  E-Explorer  R-Retour surface  I-Inventaire  X-Retour menu                   ║\n");
+    }
     printf("╚══════════════════════════════════════════════════════════════════════════════╝\n");
 }

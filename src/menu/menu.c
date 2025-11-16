@@ -7,32 +7,40 @@
 #include <string.h>
 
 void display_main_menu(void) {
-    printf("╔══════════════════════════════════════════════════════════════════╗\n");
-    printf("║                        🌊 OCEANDEPTHS 🤿                         ║\n");
-    printf("╠══════════════════════════════════════════════════════════════════╣\n");
-    printf("║   🏝️  [1] NOUVELLE PLONGÉE                                       ║\n");
-    printf("║   💾  [2] CHARGER UNE PARTIE                                     ║\n");
-    printf("║   🗺️  [3] CARTOGRAPHIE DES OCÉANS                                ║\n");
-    printf("║   🧪  [4] COMPÉTENCES MARINES                                    ║\n");
-    printf("║   🧰  [5] INVENTAIRE                                             ║\n");
-    // printf("║   ⚙️  [6] OPTIONS                                                ║\n");
-    printf("║   🚪  [6] QUITTER LE JEU                                         ║\n");
-    printf("╠══════════════════════════════════════════════════════════════════╣\n");
-    printf("║  💧 Oxygène critique ? Revenez à la surface avant qu’il ne soit  ║\n");
-    printf("║  trop tard...                                                    ║\n");
-    printf("╚══════════════════════════════════════════════════════════════════╝\n");
+    printf("╔════════════════════════════════════════════════════════════════════════════════════╗\n");
+    printf("║                                🌊 O C E A N D E P T H S 🤿                         ║\n");
+    printf("╠════════════════════════════════════════════════════════════════════════════════════╣\n");
+    printf("║                                                                                    ║\n");
+    printf("║            ~~~~~~~~        ~~~~~~~~        ~~~~~~~~        ~~~~~~~~                ║\n");
+    printf("║         ~~~~~~~~~~~~~   ~~~~~~~~~~~~~   ~~~~~~~~~~~~~   ~~~~~~~~~~~~~              ║\n");
+    printf("║       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~             ║\n");
+    printf("║    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~           ║\n");
+    printf("║                                                                                    ║\n");
+    printf("║        🐟         🐠            🐡                         🐙                      ║\n");
+    printf("║                                                                                    ║\n");
+    printf("║                     ⛵    ⛵                                                       ║\n");
+    printf("║                  ~~~~~~~~  ~~~~                                                    ║\n");
+    printf("║                                                                                    ║\n");
+    printf("║        ┌──────────────────────────────────────────────────────────────────────┐    ║\n");
+    printf("║        │  « Sous la surface, chaque mètre vous rapproche de l'inconnu... »   │     ║\n");
+    printf("║        └──────────────────────────────────────────────────────────────────────┘    ║\n");
+    printf("║                                                                                    ║\n");
+    printf("║        💧 Santé: ██████████  💨 Oxygène: ████████  ⚠️ Fatigue: ██                  ║\n");
+    printf("║                                                                                    ║\n");
+    printf("║        [1] JOUER        [2] CHARGER PARTIE        [X] QUITTER                      ║\n");
+    printf("║                                                                                    ║\n");
+    printf("║        Astuces:                                                                    ║\n");
+    printf("║        - Z/Q/S/D ou flèches pour naviguer                                          ║\n");
+    printf("║        - Chaque 50 m, la pression augmente… et les trésors aussi                   ║\n");
+    printf("║        - Surveillez vos perles pour la boutique du bateau ⛵                       ║\n");
+    printf("║                                                                                    ║\n");
+    printf("╚════════════════════════════════════════════════════════════════════════════════════╝\n");
     printf("> ");
 }
 
 
 int start_new_game(void) {
     printf("Démarrage d'une nouvelle plongée...\n");
-
-    // TODO: Initialiser le joueur et l'inventaire ici
-    // Diver* player = malloc(sizeof(Diver));
-    // init_player(player);
-    // Inventory* inv = malloc(sizeof(Inventory));
-    // init_starting_inventory(inv);
 
     return 1;
 }
@@ -51,44 +59,25 @@ void display_options(void) {
     printf("> ");
 }
 
-
 void handle_menu_input(void) {
     char input = getchar();
     switch (input) {
         case '1':
-            // Nouvelle Plongée
-            currentGameState = GAME_STATE_SAVE_MENU_CREATE;
+            // Jouer -> (ré)initialiser une nouvelle partie puis lancer la carte
+            init_game();
+            currentGameState = GAME_STATE_PLAYING;
             break;
         case '2':
             // Charger une Partie
             currentGameState = GAME_STATE_SAVE_MENU_LOAD;
             break;
-        case '3':
-            // Cartographie des Océans
-            clear_terminal();
-            printf("Affichage de la cartographie des océans...");
-            break;
-        case '4':
-            // Compétences Marines
-            clear_terminal();
-            currentGameState = GAME_STATE_MAP;
-            // display_skills();
-            break;
-        case '5':
-            // Inventaire
-            clear_terminal();
-            display_inventory(&player->inventory);
-            break;
-        case '6':
-        case 'q':
-        case 'Q':
+        case 'X':
+        case 'x':
             // Quitter le Jeu
             running = 0;
             break;
         default:
-            // clear_input_buffer();
             printf("Entrée invalide. Veuillez réessayer.");
-            // sleep_ms(1000);
             break;
     }
 }

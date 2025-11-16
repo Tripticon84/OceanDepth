@@ -4,6 +4,7 @@
 #include "../monster/monster.h"
 #include "../player/player.h"
 #include "../map/map.h"
+#include "../inventory/inventory.h"
 
 typedef enum {
     GAME_STATE_MENU,
@@ -24,6 +25,7 @@ extern int running;
 extern Monster* monsters[4];
 extern int* monstersCount;
 extern Diver* player;
+extern Inventory* inventory;
 extern int depth;
 extern Map gameMap;
 
