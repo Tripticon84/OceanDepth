@@ -23,11 +23,6 @@ int start_new_game(void);
 void display_skills(void);
 
 /**
- * @brief Menu des options (langue, effets, sauvegarde auto, etc.).
- */
-void display_options(void);
-
-/**
  * @brief Gère les entrées utilisateur dans le menu principal.
  */
 void handle_menu_input(void);

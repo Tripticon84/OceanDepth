@@ -17,8 +17,6 @@ void init_player(Diver* player) {
     player->caseIndex = 0;
 }
 
-void clean_player(Diver* player) { free(player); }
-
 void print_player(Diver* player) {
     printf("=== Plongeur ===\n");
     printf("Santé: %d/%d\n", player->health, player->maxHealth);

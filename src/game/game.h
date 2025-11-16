@@ -6,29 +6,62 @@
 #include "../map/map.h"
 #include "../inventory/inventory.h"
 
+/**
+ * @enum GameState
+ * @brief Représente les différents états possibles du jeu.
+ */
 typedef enum {
-    GAME_STATE_MENU,
-    GAME_STATE_SAVE_MENU_CREATE,
-    GAME_STATE_SAVE_MENU_LOAD,
-    GAME_STATE_PLAYING,
-    GAME_STATE_MAP,
-    GAME_STATE_SHOP,
-    GAME_STATE_INVENTORY,
-    GAME_STATE_REWARD,
-    GAME_STATE_GAME_OVER,
-    GAME_STATE_COMBAT
+    GAME_STATE_MENU,               /**< Menu principal */
+    GAME_STATE_SAVE_MENU_CREATE,   /**< Menu de création de sauvegarde */
+    GAME_STATE_SAVE_MENU_LOAD,     /**< Menu de chargement de sauvegarde */
+    GAME_STATE_PLAYING,            /**< Jeu en cours */
+    GAME_STATE_MAP,                /**< Affichage de la carte */
+    GAME_STATE_SHOP,               /**< Boutique */
+    GAME_STATE_INVENTORY,          /**< Inventaire */
+    GAME_STATE_REWARD,             /**< Récompense */
+    GAME_STATE_GAME_OVER,          /**< Fin de partie */
+    GAME_STATE_COMBAT              /**< Combat */
 } GameState;
 
+/**
+ * @brief État courant du jeu.
+ */
 extern GameState currentGameState;
+
+/**
+ * @brief Indique si le jeu est en cours d'exécution (1) ou non (0).
+ */
 extern int running;
 
+/**
+ * @brief Tableau des pointeurs vers les monstres présents dans le jeu (taille maximale : 4).
+ */
 extern Monster* monsters[4];
-extern int* monstersCount;
-extern Diver* player;
-extern Inventory* inventory;
-extern int depth;
-extern Map gameMap;
 
+/**
+ * @brief Pointeur vers le nombre de monstres actuellement présents.
+ */
+extern int* monstersCount;
+
+/**
+ * @brief Pointeur vers le joueur (plongeur).
+ */
+extern Diver* player;
+
+/**
+ * @brief Pointeur vers l'inventaire du joueur.
+ */
+extern Inventory* inventory;
+
+/**
+ * @brief Profondeur actuelle atteinte dans le jeu.
+ */
+extern int depth;
+
+/**
+ * @brief Structure représentant la carte du jeu.
+ */
+extern Map gameMap;
 /**
  * Initialise le jeu, les variables globales et les ressources nécessaires.
  */

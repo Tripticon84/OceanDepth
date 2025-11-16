@@ -133,8 +133,7 @@ char* get_item_rarity(enum rarity r) {
 }
 
 Item generate_random_item(int rarity) {
-    Item item;
-    memset(&item, 0, sizeof(Item));
+    Item item = {0};
 
     // Limiter la rareté aux valeurs valides
     if (rarity < 0) rarity = 0;

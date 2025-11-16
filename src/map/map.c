@@ -7,11 +7,10 @@
 #include <conio.h>
 #endif
 
-#include "../game/game.h"
-#include "../utils/utils.h"
-#include "../shop/shop.h"
 #include "../combat/combat.h"
+#include "../game/game.h"
 #include "../rewards/rewards.h"
+#include "../utils/utils.h"
 
 static int read_input_key_map(void) {
 #ifdef _WIN32
@@ -202,6 +201,7 @@ void init_next_zone() {
         caseZone->hasBeenDefeated = false;
         caseZone->isDiscovered = false;
     }
+    free(temp);
 }
 
 void print_map() {

@@ -35,12 +35,7 @@ int main(void) {
     // get_saves_infos(1);
     // display_saves_menu();
 
-    clean_player(player);
-    for (int i = 0; i < 4; ++i) {
-        free(monsters[i]);
-    }
-    free(monstersCount);
-    free(gameMap.zones);
+
     // clean_inventory(inv);
 
     return 0;

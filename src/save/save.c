@@ -114,6 +114,7 @@ void get_saves_infos(int slot) {
     fclose(file);
 }
 
+
 void display_saves_menu(void) {
     printf("╔══════════════════════════════════════════════════════════════════╗\n");
     printf("║                          ⚙️ SAUVEGARDES                          ║\n");

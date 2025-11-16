@@ -17,7 +17,7 @@
 ### Joueur
 
 - [X] Initialisation du joueur
-- [ ] Gestion des ressources (vie, oxygne, fatigue)
+- [X] Gestion des ressources (vie, oxygne, fatigue)
 
 ### Inventaire
 

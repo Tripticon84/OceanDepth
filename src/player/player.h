@@ -3,6 +3,9 @@
 
 #include "../inventory/inventory.h"
 
+/**
+ * Structure représentant un plongeur (joueur).
+ */
 typedef struct {
     int health;
     int maxHealth;
@@ -21,12 +24,6 @@ typedef struct {
  * @param player Pointeur vers la structure Diver à initialiser.
  */
 void init_player(Diver* player);
-
-/**
- * Libère les ressources associées au joueur (Diver).
- * @param player Pointeur vers la structure Diver à nettoyer.
- */
-void clean_player(Diver* player);
 
 /**
  * Affiche les informations du joueur (Diver) sur la sortie standard.
