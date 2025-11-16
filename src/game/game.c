@@ -143,7 +143,7 @@ void game_loop(void) {
                 break;
             case GAME_STATE_REWARD:
                 // TODO : Afficher et générer les récompenses
-                int rarity = random(0, 5);
+                int rarity = random_num(0, 5);
                 Item newItem = generate_random_item(rarity);
                 display_reward_item(&newItem);
                 clear_input_buffer();

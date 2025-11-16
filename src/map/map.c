@@ -158,10 +158,10 @@ void init_next_zone() {
             shopPlaced = true;
             continue;
         }
-        ZoneKind selectedType = availableTypes[random(0, numAvailableTypes - 1)];
+        ZoneKind selectedType = availableTypes[random_num(0, numAvailableTypes - 1)];
         bool allowCaveInZone = !cavePlaced;
         if (selectedType == CAVE && !allowCaveInZone) {
-            selectedType = availableNonCaveTypes[random(0, 3)];
+            selectedType = availableNonCaveTypes[random_num(0, 3)];
         }
         if (selectedType == CAVE) cavePlaced = true;
         caseZone->type = selectedType;
@@ -287,7 +287,7 @@ void handle_map_input(void) {
             // // Ajuster le nombre de monstres au min/max de la case
             // int desired = cz->minMonsterCount;
             // if (cz->maxMonsterCount > cz->minMonsterCount) {
-            //     desired = random(cz->minMonsterCount, cz->maxMonsterCount);
+            //     desired = random_num(cz->minMonsterCount, cz->maxMonsterCount);
             // }
             // if (desired < 1) desired = 1;
             // if (desired > 4) desired = 4;
@@ -296,7 +296,7 @@ void handle_map_input(void) {
             // Compléter ou réduire pour correspondre au "desired"
             // if (*monstersCount < desired) {
             //     for (int i = *monstersCount; i < desired; ++i) {
-            //         int type = (depth <= 50) ? random(1, 3) : ((depth <= 150) ? random(1, 4) : random(0, 4));
+            //         int type = (depth <= 50) ? random_num(1, 3) : ((depth <= 150) ? random_num(1, 4) : random_num(0, 4));
             //         init_monster(monsters[i], type, i + 1);
             //     }
             // }

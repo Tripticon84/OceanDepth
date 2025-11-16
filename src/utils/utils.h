@@ -79,6 +79,6 @@ void sleep_ms(int milliseconds);
  * @param max Valeur maximale.
  * @return Nombre aléatoire généré.
  */
-int random(int min, int max);
+int random_num(int min, int max);
 
 #endif //OCEANDEPTH_UTILS_H

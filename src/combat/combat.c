@@ -39,7 +39,7 @@ int max_attacks_per_turn(void) {
 int calculate_player_damage(Monster* target) {
     int min_attack = player->inventory.equipedWeapon.minAttack;
     int max_attack = player->inventory.equipedWeapon.maxAttack;
-    int base_damage = random(min_attack, max_attack) + min_attack;
+    int base_damage = random_num(min_attack, max_attack) + min_attack;
     int final_damage = base_damage - target->defense;
     if (final_damage < 1) final_damage = 1;
 
@@ -53,7 +53,7 @@ void player_attack_monster(Monster* target) {
         damage = (int)(damage * 0.8); // Réduction des dégâts de 20%
 
     target->health -= damage;
-    consume_oxygen(random(2, 4));
+    consume_oxygen(random_num(2, 4));
 
     if (target->health <= 0) {
         target->health = 0;
@@ -109,13 +109,13 @@ void monster_attacks_player(Monster* monster, SpecialEffect specialEffect) {
         damage += calculate_monster_damage(monster);
 
     player->health -= damage;
-    consume_oxygen(random(1, 2));
+    consume_oxygen(random_num(1, 2));
 
     if (player->health < 0) player->health = 0;
 }
 
 int calculate_monster_damage(Monster* monster) {
-    int base_damage = random(monster->minAttack, monster->maxAttack);
+    int base_damage = random_num(monster->minAttack, monster->maxAttack);
 
     int suit_defense = player->inventory.equipedSuit.defenseBonus;
     int helmet_defense = player->inventory.equipedHelmet.defenseBonus;
