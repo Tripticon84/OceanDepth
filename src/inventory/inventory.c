@@ -320,31 +320,31 @@ void display_inventory(Inventory* inv) {
     printf("║  🛡️  ÉQUIPEMENT PORTÉ :                                          ║\n");
     printf("║                                                                  ║\n");
 
-    if (inv && inv->equipedWeapon) {
+    if (inv && inv->equipedWeapon.name[0] != '\0') {
         printf("║  ⚔️  Arme : %-50s ║\n", inv->equipedWeapon.name);
     } else {
         printf("║  ⚔️  Arme : Aucune                                            ║\n");
     }
 
-    if (inv && inv->equipedHelmet) {
+    if (inv && inv->equipedHelmet.name[0] != '\0') {
         printf("║  🪖 Casque : %-48s ║\n", inv->equipedHelmet.name);
     } else {
         printf("║  🪖 Casque : Aucun                                            ║\n");
     }
 
-    if (inv && inv->equipedSuit) {
+    if (inv && inv->equipedSuit.name[0] != '\0') {
         printf("║  🦺 Combinaison : %-44s ║\n", inv->equipedSuit.name);
     } else {
         printf("║  🦺 Combinaison : Aucune                                       ║\n");
     }
 
-    if (inv && inv->equipedGloves) {
+    if (inv && inv->equipedGloves.name[0] != '\0') {
         printf("║  🧤 Gants : %-50s ║\n", inv->equipedGloves.name);
     } else {
         printf("║  🧤 Gants : Aucuns                                            ║\n");
     }
 
-    if (inv && inv->equipedBoots) {
+    if (inv && inv->equipedBoots.name[0] != '\0') {
         printf("║  👢 Bottes : %-49s ║\n", inv->equipedBoots.name);
     } else {
         printf("║  👢 Bottes : Aucunes                                          ║\n");

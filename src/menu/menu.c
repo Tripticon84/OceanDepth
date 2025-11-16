@@ -77,7 +77,7 @@ void handle_menu_input(void) {
         case '5':
             // Inventaire
             clear_terminal();
-            // display_inventory(NULL); // TODO: Passer l'inventaire du joueur
+            display_inventory(&player->inventory);
             break;
         case '6':
         case 'q':
