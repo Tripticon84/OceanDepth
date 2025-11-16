@@ -117,14 +117,27 @@ void first_init_zone() {
 
 void init_next_zone() {
     gameMap.numZones++;
-    gameMap.zones = realloc(gameMap.zones, sizeof(Zone) * (gameMap.numZones + 1));
-    if (gameMap.zones == NULL) {
+    // gameMap.zones = realloc(gameMap.zones, sizeof(Zone) * (gameMap.numZones + 1));
+    // if (gameMap.zones == NULL) {
+    //     fprintf(stderr, "Erreur d'allocation de la carte\n");
+    //     exit(-10);
+    // }
+    // int newDepth = gameMap.zones[gameMap.numZones - 1].depth + 50;
+    // Zone* newZone = &gameMap.zones[gameMap.numZones];
+    // newZone->depth = newDepth;
+
+    Zone* temp = realloc(gameMap.zones, sizeof(Zone) * (gameMap.numZones + 1));
+    if (temp == NULL) {
         fprintf(stderr, "Erreur d'allocation de la carte\n");
-        exit(-10);
+        gameMap.numZones--;
+        return;
     }
+    gameMap.zones = temp;
     int newDepth = gameMap.zones[gameMap.numZones - 1].depth + 50;
+
     Zone* newZone = &gameMap.zones[gameMap.numZones];
     newZone->depth = newDepth;
+
 
     bool needShop = newDepth % 200 == 0 ? true : false;
     int numAvailableTypes = 5; // inclut EMPTY

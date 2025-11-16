@@ -357,7 +357,7 @@ void display_inventory(Inventory* inv) {
     printf("║                                                                  ║\n");
     if (inv && inv->nb_objets > 0) {
         for (int i = 0; i < inv->nb_objets && i < 8; i++) {
-            char itemLine[70];
+            char itemLine[122];
             snprintf(
                 itemLine, sizeof(itemLine), "  [%d] %s (x%d)",
                 i + 1, inv->objets[i].name, inv->objets[i].quantity);

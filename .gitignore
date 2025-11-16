@@ -2,3 +2,7 @@ cmake-build-*
 *.o
 *.exe
 *.d
+*.dat
+oceandepth
+OceanDepth
+oceanDepth

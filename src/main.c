@@ -2,18 +2,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#ifdef _WIN32
 #include <windows.h>
+#endif
 
 #include "game/game.h"
 #include "player/player.h"
 
 
 int main(void) {
+#ifdef _WIN32
     SetConsoleOutputCP(CP_UTF8); // Fix les problèmes d'affichage des accents
+#endif
     setlocale(LC_ALL, ".UTF8");
     srand((unsigned int)time(NULL));
 
-    init_game();
+     init_game();
     // print_player(player);
 
 
