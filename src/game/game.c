@@ -5,9 +5,10 @@
 #include "../combat/combat.h"
 #include "../display_combat/display_combat.h"
 #include "../menu/menu.h"
+#include "../rewards/rewards.h"
 #include "../save/save.h"
 #include "../utils/utils.h"
-#include "../shop.h"
+#include "../shop/shop.h"
 
 int running = 1;
 GameState currentGameState = GAME_STATE_MENU;
@@ -16,7 +17,7 @@ Monster* monsters[4];
 int* monstersCount = 0;
 Diver* player;
 Inventory* inventory;
-int depth = 600;
+int depth = 0;
 Map gameMap;
 
 void init_game(void) {
@@ -54,6 +55,7 @@ void menu_loop(void) {
                 clear_terminal();
             }
             if (previousGameState == GAME_STATE_PLAYING && currentGameState == GAME_STATE_MENU) {
+                clear_terminal();
             }
             previousGameState = currentGameState;
         }
@@ -90,6 +92,9 @@ void game_loop(void) {
         if (previousGameState != currentGameState) {
             clear_terminal();
             previousGameState = currentGameState;
+        }
+        if (currentGameState == GAME_STATE_MENU) {
+            return;
         }
 
         clear_terminal();
@@ -138,6 +143,13 @@ void game_loop(void) {
                 break;
             case GAME_STATE_REWARD:
                 // TODO : Afficher et générer les récompenses
+                int rarity = random(0, 5);
+                Item newItem = generate_random_item(rarity);
+                display_reward_item(&newItem);
+                clear_input_buffer();
+                getchar();
+                add_rewards_to_player(player, &player->inventory, &newItem, 1, 50);
+                printf("\nRécompense reçue !\n");
                 currentGameState = GAME_STATE_MAP;
                 break;
             case GAME_STATE_GAME_OVER:
@@ -154,7 +166,7 @@ void combat_loop(void) {
     int remainingAttacks = 3;
     bool finishTurn = false;
 
-    generate_monsters_in_zone(monsters, 550, monstersCount);
+    generate_monsters_in_zone(monsters, depth, monstersCount);
     sort_monsters_by_speed(monsters, *monstersCount);
     printf("%d", *monstersCount);
     sleep_ms(1000);
@@ -164,12 +176,12 @@ void combat_loop(void) {
         clear_terminal();
         finishTurn = false;
         remainingAttacks = max_attacks_per_turn();
-        increase_fatigue();
         while (!finishTurn) {
             clear_terminal();
             display_combat_interface(&remainingAttacks);
             handle_combat_input(&remainingAttacks, &finishTurn);
         }
+        increase_fatigue();
         for (int i = 0; i < *monstersCount; ++i) {
             if (monsters[i]->isAlive) {
                 monster_attacks_player(monsters[i], special_effect);
@@ -185,7 +197,9 @@ void combat_loop(void) {
             inCombat = false;
             printf("Vous avez vaincu toutes les créatures !\n");
             sleep_ms(2500);
+            player->tiredness = 0;
             currentGameState = GAME_STATE_REWARD;
+            gameMap.zones[player->zoneIndex].cases[player->caseIndex].hasBeenDefeated = true;
         } else if (player->health <= 0) {
             inCombat = false;
             printf("Vous avez été vaincu...\n");

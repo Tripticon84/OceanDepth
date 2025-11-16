@@ -5,14 +5,14 @@
 ### Menu principal
 
 - [X] Affichage du menu principal
-- [ ] Gérer les inputs
+- [X] Gérer les inputs
 
 ### Monstres
 
 - [X] Génération d'une créature
 - [ ] Effets spéciaux des créatures
     - Manque Méduse
-- [ ] Génération aléatoire de créatures pour une zone
+- [X] Génération aléatoire de créatures pour une zone
 
 ### Joueur
 
@@ -22,7 +22,7 @@
 ### Inventaire
 
 - [X] Affichage de l'inventaire
-- [ ] Gestion inputs
+- [X] Gestion inputs
 - [ ] Gestion équipements et consommables
 
 ### Combats
@@ -46,7 +46,7 @@
 #### Sauvegarde
 
 - [X] Affichage du menu de sauvegarde
-- [ ] Sauvegarde possible uniquement en surface
+- [X] Sauvegarde possible uniquement en surface ou dans une grotte
 - [X] Sauvegarde du joueur
 - [X] Sauvegarde de l'inventaire
 - [X] Sauvegarde des zones
@@ -67,27 +67,27 @@
 ### Map
 
 - [X] Affichage de la map
-- [ ] Gestion des déplacements
-- [ ] Retour en surface
+- [X] Gestion des déplacements
+- [X] Retour en surface
 - [ ] Détail d'une zone
 
 ### Zones
 
 #### Types de zones
 
-- [ ] Surface : Sauvegarde, boutique, repos complet
-- [ ] Récifs : Créatures faciles, équipement de base
-- [ ] Épaves : Trésors, créatures moyennes, équipements rares
-- [ ] Forêts d'algues : Labyrinthique, créatures qui se cachent
-- [ ] Grottes : Sécurisées, cristaux d'oxygène, sauvegarde
+- [X] Surface : Sauvegarde, boutique, repos complet
+- [X] Récifs : Créatures faciles, équipement de base
+- [X] Épaves : Trésors, créatures moyennes, équipements rares
+- [X] Forêts d'algues : Labyrinthique, créatures qui se cachent
+- [X] Grottes : Sécurisées, cristaux d'oxygène, sauvegarde
 - [ ] Fosses : Créatures légendaires, équipements exceptionnels
 
 #### Mécaniques d'exploration
 
-- [ ] Chaque déplacement consomme de l'oxygène selon la distance
-- [ ] Plus la profondeur augmente, plus l'oxygène se consomme vite
+- [X] Chaque déplacement consomme de l'oxygène selon la distance
+- [X] Plus la profondeur augmente, plus l'oxygène se consomme vite
 - [ ] Certaines zones nécessitent un équipement minimum
-- [ ] Les zones inconnues se débloquent par progression
+- [X] Les zones inconnues se débloquent par progression
 
 ### Étapes
 
@@ -97,14 +97,30 @@
 - [X] Étape 4 : Récompenses
 - [X] Étape 5 : Sauvegarde/Chargement
 - [ ] Étape 6 : Compétences
-- [ ] Étape 7 : Map/Zones
+- [X] Étape 7 : Map/Zones
 
 ## Captures d'écran
 
+### Menu principal
+
+<img alt="Menu principal" src="docs/data/img/menu.png" width="500"/>
+
+### Menu des sauvegardes
+
+<img alt="Menu des sauvegardes" src="docs/data/img/saves.png" width="500"/>
+
+### Game
+
+<img alt="Game" src="docs/data/img/game.png" width="500"/>
+
 ### Map
 
-![Map](docs/data/img/map.png)
+<img alt="Map" src="docs/data/img/map.png" width="500"/>
+
+### Combat
+
+<img alt="Combat" src="docs/data/img/combat.png" width="500"/>
 
 ## Difficultés rencontrées
 
-[Décrire les problèmes et solutions]
+- Problème avec l'affichage (Pas facile à gérer avec les tailles différentes et emoji, etc.)

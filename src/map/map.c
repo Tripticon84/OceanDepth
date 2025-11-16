@@ -9,7 +9,7 @@
 
 #include "../game/game.h"
 #include "../utils/utils.h"
-#include "../shop.h"
+#include "../shop/shop.h"
 #include "../combat/combat.h"
 #include "../rewards/rewards.h"
 
@@ -19,11 +19,16 @@ static int read_input_key_map(void) {
     if (ch == 0 || ch == 224) {
         int arrow = _getch();
         switch (arrow) {
-            case 72: return 1000; // up
-            case 80: return 1001; // down
-            case 75: return 1002; // left
-            case 77: return 1003; // right
-            default: return 0;
+            case 72:
+                return 1000; // up
+            case 80:
+                return 1001; // down
+            case 75:
+                return 1002; // left
+            case 77:
+                return 1003; // right
+            default:
+                return 0;
         }
     }
     if (ch == '\r') return '\n';
@@ -35,11 +40,16 @@ static int read_input_key_map(void) {
         if (next == '[') {
             int arrow = getchar();
             switch (arrow) {
-                case 'A': return 1000;
-                case 'B': return 1001;
-                case 'D': return 1002;
-                case 'C': return 1003;
-                default: return 0;
+                case 'A':
+                    return 1000;
+                case 'B':
+                    return 1001;
+                case 'D':
+                    return 1002;
+                case 'C':
+                    return 1003;
+                default:
+                    return 0;
             }
         }
     }
@@ -62,16 +72,44 @@ void first_init_zone() {
     gameMap.zones[0].depth = 0;
 
     CaseZone* base = &gameMap.zones[0].cases[0];
-    strcpy(base->icon, "🏝️"); strcpy(base->name, "Base"); base->type = SURFACE; strcpy(base->description, "Zone de depart securisee"); base->minMonsterCount = 0; base->maxMonsterCount = 0; base->isDiscovered = true; base->hasBeenDefeated = true;
+    strcpy(base->icon, "🏝️");
+    strcpy(base->name, "Base");
+    base->type = SURFACE;
+    strcpy(base->description, "Zone de depart securisee");
+    base->minMonsterCount = 0;
+    base->maxMonsterCount = 0;
+    base->isDiscovered = true;
+    base->hasBeenDefeated = true;
 
     CaseZone* ocean1 = &gameMap.zones[0].cases[1];
-    strcpy(ocean1->icon, "🌊"); strcpy(ocean1->name, "Ocean"); ocean1->type = SURFACE; strcpy(ocean1->description, "Eaux calmes en surface"); ocean1->minMonsterCount = 0; ocean1->maxMonsterCount = 0; ocean1->isDiscovered = true; ocean1->hasBeenDefeated = false;
+    strcpy(ocean1->icon, "🌊");
+    strcpy(ocean1->name, "Ocean");
+    ocean1->type = SURFACE;
+    strcpy(ocean1->description, "Eaux calmes en surface");
+    ocean1->minMonsterCount = 0;
+    ocean1->maxMonsterCount = 0;
+    ocean1->isDiscovered = true;
+    ocean1->hasBeenDefeated = true;
 
     CaseZone* ocean2 = &gameMap.zones[0].cases[2];
-    strcpy(ocean2->icon, "🌊"); strcpy(ocean2->name, "Ocean"); ocean2->type = SURFACE; strcpy(ocean2->description, "Eaux calmes en surface"); ocean2->minMonsterCount = 0; ocean2->maxMonsterCount = 0; ocean2->isDiscovered = true; ocean2->hasBeenDefeated = false;
+    strcpy(ocean2->icon, "🌊");
+    strcpy(ocean2->name, "Ocean");
+    ocean2->type = SURFACE;
+    strcpy(ocean2->description, "Eaux calmes en surface");
+    ocean2->minMonsterCount = 0;
+    ocean2->maxMonsterCount = 0;
+    ocean2->isDiscovered = true;
+    ocean2->hasBeenDefeated = true;
 
     CaseZone* boat = &gameMap.zones[0].cases[3];
-    strcpy(boat->icon, "⛵"); strcpy(boat->name, "Bateau"); boat->type = SHOP; strcpy(boat->description, "Magasin du bateau"); boat->minMonsterCount = 0; boat->maxMonsterCount = 0; boat->isDiscovered = true; boat->hasBeenDefeated = false;
+    strcpy(boat->icon, "⛵");
+    strcpy(boat->name, "Bateau");
+    boat->type = SHOP;
+    strcpy(boat->description, "Magasin du bateau");
+    boat->minMonsterCount = 0;
+    boat->maxMonsterCount = 0;
+    boat->isDiscovered = true;
+    boat->hasBeenDefeated = true;
 
     player->zoneIndex = 0;
     player->caseIndex = 0;
@@ -114,7 +152,11 @@ void init_next_zone() {
             strcpy(caseZone->icon, ZONE_TYPE[SHOP].icon);
             strcpy(caseZone->name, ZONE_TYPE[SHOP].name);
             strcpy(caseZone->description, ZONE_TYPE[SHOP].description);
-            caseZone->minMonsterCount = 0; caseZone->maxMonsterCount = 0; caseZone->isDiscovered = false; shopPlaced = true; continue;
+            caseZone->minMonsterCount = 0;
+            caseZone->maxMonsterCount = 0;
+            caseZone->isDiscovered = false;
+            shopPlaced = true;
+            continue;
         }
         ZoneKind selectedType = availableTypes[random(0, numAvailableTypes - 1)];
         bool allowCaveInZone = !cavePlaced;
@@ -126,12 +168,23 @@ void init_next_zone() {
         strcpy(caseZone->icon, ZONE_TYPE[selectedType].icon);
         strcpy(caseZone->name, ZONE_TYPE[selectedType].name);
         strcpy(caseZone->description, ZONE_TYPE[selectedType].description);
-        if (selectedType == SHOP || selectedType == CAVE || selectedType == EMPTY) { caseZone->minMonsterCount = 0; caseZone->maxMonsterCount = 0; }
-        else {
-            if (newDepth <= 100) { caseZone->minMonsterCount = 1; caseZone->maxMonsterCount = 1; }
-            else if (newDepth <= 200) { caseZone->minMonsterCount = 1; caseZone->maxMonsterCount = 2; }
-            else if (newDepth <= 500) { caseZone->minMonsterCount = 2; caseZone->maxMonsterCount = 3; }
-            else { caseZone->minMonsterCount = 3; caseZone->maxMonsterCount = 4; }
+        if (selectedType == SHOP || selectedType == CAVE || selectedType == EMPTY) {
+            caseZone->minMonsterCount = 0;
+            caseZone->maxMonsterCount = 0;
+        } else {
+            if (newDepth <= 100) {
+                caseZone->minMonsterCount = 1;
+                caseZone->maxMonsterCount = 1;
+            } else if (newDepth <= 200) {
+                caseZone->minMonsterCount = 1;
+                caseZone->maxMonsterCount = 2;
+            } else if (newDepth <= 500) {
+                caseZone->minMonsterCount = 2;
+                caseZone->maxMonsterCount = 3;
+            } else {
+                caseZone->minMonsterCount = 3;
+                caseZone->maxMonsterCount = 4;
+            }
         }
         caseZone->hasBeenDefeated = false;
         caseZone->isDiscovered = false;
@@ -173,14 +226,22 @@ bool is_case_zone_visible(int zoneIndex, int caseIndex) {
 
 const char* get_zone_type_name(ZoneKind type) {
     switch (type) {
-        case SURFACE: return "Surface";
-        case REEF: return "Recif";
-        case WRECK: return "Epave";
-        case ALGAE_FOREST: return "Forêt d'algues";
-        case CAVE: return "Grotte";
-        case SHOP: return "Magasin";
-        case EMPTY: return "Vide";
-        default: return "Inconnu";
+        case SURFACE:
+            return "Surface";
+        case REEF:
+            return "Recif";
+        case WRECK:
+            return "Epave";
+        case ALGAE_FOREST:
+            return "Forêt d'algues";
+        case CAVE:
+            return "Grotte";
+        case SHOP:
+            return "Magasin";
+        case EMPTY:
+            return "Vide";
+        default:
+            return "Inconnu";
     }
 }
 
@@ -199,15 +260,16 @@ void handle_map_input(void) {
         return;
     }
 
+    CaseZone* cz = &gameMap.zones[player->zoneIndex].cases[player->caseIndex];
     if (key == 'e' || key == 'E' || key == '\n') {
-        CaseZone* cz = &gameMap.zones[player->zoneIndex].cases[player->caseIndex];
         if (!cz->isDiscovered && !is_case_zone_visible(player->zoneIndex, player->caseIndex)) {
             return;
         }
         cz->isDiscovered = true;
         // Mettre à jour la profondeur globale
-        int depth = gameMap.zones[player->zoneIndex].depth;
+        depth = gameMap.zones[player->zoneIndex].depth;
         if (cz->type == SHOP) {
+            player->oxygen += player->oxygen + 30 > player->maxOxygen ? player->maxOxygen - player->oxygen : 30;
             currentGameState = GAME_STATE_SHOP;
             return;
         }
@@ -222,26 +284,29 @@ void handle_map_input(void) {
             return;
         }
         if (cz->type != EMPTY && cz->type != SURFACE) {
-            // Ajuster le nombre de monstres au min/max de la case
-            int desired = cz->minMonsterCount;
-            if (cz->maxMonsterCount > cz->minMonsterCount) {
-                desired = random(cz->minMonsterCount, cz->maxMonsterCount);
-            }
-            if (desired < 1) desired = 1; if (desired > 4) desired = 4;
+            // // Ajuster le nombre de monstres au min/max de la case
+            // int desired = cz->minMonsterCount;
+            // if (cz->maxMonsterCount > cz->minMonsterCount) {
+            //     desired = random(cz->minMonsterCount, cz->maxMonsterCount);
+            // }
+            // if (desired < 1) desired = 1;
+            // if (desired > 4) desired = 4;
             // Générer les monstres pour ce combat à la profondeur courante
-            generate_monsters_in_zone(monsters, depth, monstersCount);
+            // generate_monsters_in_zone(monsters, depth, monstersCount);
             // Compléter ou réduire pour correspondre au "desired"
-            if (*monstersCount < desired) {
-                for (int i = *monstersCount; i < desired; ++i) {
-                    int type = (depth <= 50) ? random(1, 3) : ((depth <= 150) ? random(1, 4) : random(0, 4));
-                    init_monster(monsters[i], type, i + 1);
-                }
+            // if (*monstersCount < desired) {
+            //     for (int i = *monstersCount; i < desired; ++i) {
+            //         int type = (depth <= 50) ? random(1, 3) : ((depth <= 150) ? random(1, 4) : random(0, 4));
+            //         init_monster(monsters[i], type, i + 1);
+            //     }
+            // }
+            // if (desired < *monstersCount) {
+            //     // Rien à faire: on tronque simplement en mettant le compteur cible
+            // }
+            // *monstersCount = desired;
+            if (!cz->hasBeenDefeated) {
+                currentGameState = GAME_STATE_COMBAT;
             }
-            if (desired < *monstersCount) {
-                // Rien à faire: on tronque simplement en mettant le compteur cible
-            }
-            *monstersCount = desired;
-            currentGameState = GAME_STATE_COMBAT;
         }
         // Débloquer la zone suivante si on est sur la dernière connue
         if (player->zoneIndex == gameMap.numZones) {
@@ -262,7 +327,7 @@ void handle_map_input(void) {
     }
 
     if (key == 's' || key == 'S') {
-        if (player->zoneIndex == 0 && player->caseIndex == 0) {
+        if (player->zoneIndex == 0 && player->caseIndex == 0 || cz->type == CAVE) {
             currentGameState = GAME_STATE_SAVE_MENU_CREATE;
         }
         return;
@@ -272,16 +337,28 @@ void handle_map_input(void) {
     int newCase = player->caseIndex;
 
     switch (key) {
-        case 'z': case 'Z': case 1000:
-            if (player->zoneIndex > 0) { newZone = player->zoneIndex - 1; newCase = 0; }
+        case 'z':
+        case 'Z':
+        case 1000:
+            if (player->zoneIndex > 0) {
+                newZone = player->zoneIndex - 1;
+                // newCase = 0;
+            }
             break;
         case 1001:
-            if (player->zoneIndex < gameMap.numZones) { newZone = player->zoneIndex + 1; newCase = 0; }
+            if (player->zoneIndex < gameMap.numZones) {
+                newZone = player->zoneIndex + 1;
+                // newCase = 0;
+            }
             break;
-        case 'q': case 'Q': case 1002:
+        case 'q':
+        case 'Q':
+        case 1002:
             if (player->caseIndex > 0) newCase = player->caseIndex - 1;
             break;
-        case 'd': case 'D': case 1003:
+        case 'd':
+        case 'D':
+        case 1003:
             if (player->caseIndex < 3) newCase = player->caseIndex + 1;
             break;
         default:
@@ -292,12 +369,12 @@ void handle_map_input(void) {
         // Consomme de l'oxygène lorsqu'on descend d'une zone (coût croissant avec la profondeur)
         if (newZone > player->zoneIndex) {
             int newDepthMeters = gameMap.zones[newZone].depth;
-            int cost = 10 + 5 * (newDepthMeters / 100); // Base 10, +5 par palier de 100 m
+            int cost = 4 + 3 * (newDepthMeters / 100); // Base 10, +5 par palier de 100 m
             consume_oxygen(cost);
-            if (player->oxygen <= 0) {
-                currentGameState = GAME_STATE_GAME_OVER;
-                return;
-            }
+            // if (player->oxygen <= 0) {
+            //     currentGameState = GAME_STATE_GAME_OVER;
+            //     return;
+            // }
         }
         player->zoneIndex = newZone;
         player->caseIndex = newCase;

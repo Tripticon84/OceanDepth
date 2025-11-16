@@ -7,7 +7,7 @@
 #include <conio.h>
 #endif
 
-#include "utils/utils.h"
+#include "../utils/utils.h"
 
 #define SHOP_COLUMNS 4
 #define SHOP_ROWS 2
@@ -183,9 +183,9 @@ static void draw_row(int rowIndex) {
 
         char line[18];
         if (idx == selectedIndex) {
-            snprintf(line, sizeof(line), "▶ %-12s", name);
+            snprintf(line, sizeof(line), "▶ %-11s", name);
         } else {
-            snprintf(line, sizeof(line), "  %-12s", name);
+            snprintf(line, sizeof(line), "  %-11s", name);
         }
         printf("│ %-12s ", line);
     }
@@ -234,32 +234,33 @@ static void draw_row(int rowIndex) {
 
 static void render_shop(int depthMeters, const char* message) {
     clear_terminal();
-    printf("╔══════════════════════════════════════════════════════════════════╗\n");
-    printf("║                        🛒 BOUTIQUE MARINE 🐚                      ║\n");
-    printf("╠══════════════════════════════════════════════════════════════════╣\n");
+    printf("╔════════════════════════════════════════════════════════════════════╗\n");
+    printf("║                      🛒 BOUTIQUE MARINE 🐚                         ║\n");
+    printf("╠════════════════════════════════════════════════════════════════════╣\n");
     if (shopPlayer) {
-        printf("║  Perles : %-6d                                  Profondeur max : -%dm ║\n", shopPlayer->pearls,
-               depthMeters);
+        printf(
+            "║  Perles : %-6d                            Profondeur max : -%dm ║\n", shopPlayer->pearls,
+            depthMeters);
     } else {
-        printf("║  Perles : --                                     Profondeur max : -%dm ║\n", depthMeters);
+        printf("║  Perles : --                                Profondeur max : -%dm ║\n", depthMeters);
     }
-    printf("╠══════════════════════════════════════════════════════════════════╣\n");
-    printf("║  Commandes : Z/Q/S/D pour naviguer • E pour acheter • X pour quitter      ║\n");
-    printf("╠══════════════════════════════════════════════════════════════════╣\n");
+    printf("╠════════════════════════════════════════════════════════════════════╣\n");
+    printf("║  Commandes : Z/Q/S/D naviguer • E acheter • X quitter             ║\n");
+    printf("╠════════════════════════════════════════════════════════════════════╣\n");
 
     for (int row = 0; row < SHOP_ROWS; ++row) {
         draw_row(row);
     }
 
-    printf("╠══════════════════════════════════════════════════════════════════╣\n");
+    printf("╠════════════════════════════════════════════════════════════════════╣\n");
     if (message && strlen(message) > 0) {
         char truncated[70];
         truncate_text(message, truncated, sizeof(truncated));
-        printf("║  %s%-*s║\n", truncated, (int)(66 - strlen(truncated)), "");
+        printf("║  %-66s║\n", truncated);
     } else {
-        printf("║  Sélectionnez un article puis appuyez sur E pour l'acheter.           ║\n");
+        printf("║  Sélectionnez un article puis appuyez sur E pour l'acheter.       ║\n");
     }
-    printf("╚══════════════════════════════════════════════════════════════════╝\n");
+    printf("╚════════════════════════════════════════════════════════════════════╝\n");
 }
 
 static int read_input_key(void) {

@@ -91,10 +91,10 @@ void generate_monsters_in_zone(Monster* list[], int depth, int* monstersCount) {
     // int count = random(1, 2 + floor(difficulty / 5));
     int count = 0;
 
-    if (depth < 50) count = 1;
-    else if (depth < 200) count = random(1, 2);
-    else if (depth < 500) count = random(2, 3);
-    else if (depth > 500) count = random(3, 4);
+    if (depth <= 150) count = 1;
+    else if (depth <= 200) count = random(1, 2);
+    else if (depth <= 500) count = random(2, 3);
+    else if (depth > 501) count = random(3, 4);
 
     if (count < 1) count = 1;
     if (count > 4) count = 4;

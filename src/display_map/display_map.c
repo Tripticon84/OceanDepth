@@ -115,10 +115,11 @@ void display_map() {
     // Barre Santé/Oxygène centrée
     printf("║");
     char statusLine[84];
-    snprintf(statusLine, sizeof(statusLine), "💧 Santé: %d/%d  💨 Oxygène: %d/%d  💎 Perles: %d",
-             player->health, player->maxHealth, player->oxygen, player->maxOxygen, player->pearls);
+    snprintf(
+        statusLine, sizeof(statusLine), "💧 Santé: %d/%d  💨 Oxygène: %d/%d  💎 Perles: %d",
+        player->health, player->maxHealth, player->oxygen, player->maxOxygen, player->pearls);
     print_centered(statusLine, 84);
-    printf("║\n");
+    printf(" ║\n");
 
     printf("╠══════════════════════════════════════════════════════════════════════════════╣\n");
 

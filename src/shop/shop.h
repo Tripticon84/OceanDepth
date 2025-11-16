@@ -1,8 +1,8 @@
 #ifndef OCEANDEPTH_SHOP_H
 #define OCEANDEPTH_SHOP_H
 
-#include "inventory/inventory.h"
-#include "player/player.h"
+#include "../inventory/inventory.h"
+#include "../player/player.h"
 
 /**
  * Configure le contexte de la boutique.

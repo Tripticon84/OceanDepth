@@ -80,16 +80,12 @@ void handle_combat_input(int* remainingAttacks, bool* finishTurn) {
             }
             player_attack_monster(monsters[selectedTarget]);
             (*remainingAttacks)--;
-            increase_fatigue();
-
             break;
         case '2':
             // Compétences Marines
-            increase_fatigue();
             break;
         case '3':
             // Consommer objet
-            increase_fatigue();
             break;
         case '4':
             clear_terminal();
@@ -99,7 +95,6 @@ void handle_combat_input(int* remainingAttacks, bool* finishTurn) {
             break;
         case '5':
             // Terminer le tour
-            increase_fatigue();
             *finishTurn = true;
             break;
         default:
@@ -143,5 +138,9 @@ void consume_oxygen(int cost) {
 }
 
 void increase_fatigue() {
-    player->tiredness += 1;
+    if (player->tiredness + 1 > 5) {
+        player->tiredness = 5;
+    } else {
+        player->tiredness += 1;
+    }
 }
