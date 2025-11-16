@@ -164,7 +164,7 @@ void init_next_zone() {
             }
         }
         caseZone->hasBeenDefeated = false;
-        caseZone->isDiscovered = true; // TODO: A changer plus tard
+        caseZone->isDiscovered = false;
     }
 }
 
