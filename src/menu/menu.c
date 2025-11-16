@@ -52,7 +52,7 @@ void handle_menu_input(void) {
     switch (input) {
         case '1':
             // Jouer -> (ré)initialiser une nouvelle partie puis lancer la carte
-            init_game();
+            //init_game();
             currentGameState = GAME_STATE_PLAYING;
             break;
         case '2':

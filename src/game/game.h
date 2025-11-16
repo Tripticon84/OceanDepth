@@ -82,8 +82,6 @@ void game_loop(void);
  */
 void combat_loop(void);
 
-/**
- *
- */
 void cleanup_game(void);
+
 #endif //OCEANDEPTH_GAME_H

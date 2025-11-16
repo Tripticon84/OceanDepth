@@ -17,7 +17,7 @@ int main(void) {
     setlocale(LC_ALL, ".UTF8");
     srand((unsigned int)time(NULL));
 
-    // init_game();
+     init_game();
     // print_player(player);
 
 
