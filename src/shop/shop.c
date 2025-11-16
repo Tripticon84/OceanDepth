@@ -197,7 +197,7 @@ static void draw_row(int rowIndex) {
         const char* rarityText = get_item_rarity(slot->item.rarity);
         char rarityLine[22];
         snprintf(rarityLine, sizeof(rarityLine), "%s %s", rarityIcons[slot->item.rarity], rarityText);
-        truncate_text(rarityLine, rarityLine, 17);
+        truncate_text(rarityLine, rarityLine, 19);
         printf("│  %-20s", rarityLine);
     }
     printf("│  ║\n");
@@ -209,8 +209,8 @@ static void draw_row(int rowIndex) {
         const ShopSlot* slot = &shopSlots[idx];
         char statLine[22];
         format_stat_line(&slot->item, statLine, sizeof(statLine));
-        truncate_text(statLine, statLine, 19);
-        printf("│%-20s", statLine);
+        truncate_text(statLine, statLine, 17);
+        printf("│  %-18s", statLine);
     }
     printf("│  ║\n");
 
@@ -225,7 +225,7 @@ static void draw_row(int rowIndex) {
         } else {
             snprintf(priceLine, sizeof(priceLine), "💎 %d", slot->price);
         }
-        truncate_text(priceLine, priceLine, 17);
+        truncate_text(priceLine, priceLine, 19);
         printf("│  %-20s", priceLine);
     }
     printf("│  ║\n");
