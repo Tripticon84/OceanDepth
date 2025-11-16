@@ -48,4 +48,7 @@ void game_loop(void);
  * Boucle de combat, gère les interactions et la logique lors des combats.
  */
 void combat_loop(void);
+
+void cleanup_game(void);
+
 #endif //OCEANDEPTH_GAME_H
